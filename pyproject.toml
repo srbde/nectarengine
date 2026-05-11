@@ -4,7 +4,7 @@ requires = [ "hatchling", "wheel" ]
 
 [project]
 name = "nectarengine"
-version = "0.2.2"
+version = "0.2.3"
 description = "command line tool and python library for sending hive engine tokens"
 readme = "README.md"
 keywords = [ "hive", "nft", "tools" ]
