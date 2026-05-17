@@ -58,7 +58,8 @@ test-dist: generate-versions
 	uvx uv-publish@latest --repo testpypi
 
 docs:
-	sphinx-apidoc -d 4 -e -f -o docs ./src *.py tests
-	make -C docs clean html
+	uv run sphinx-apidoc -H "API Reference" -d 4 -e -f -o docs src
+	rm -rf docs/_build/html docs/_build/doctrees
+	uv run sphinx-build -b html docs docs/_build/html
 
 release: clean check dist tag git
