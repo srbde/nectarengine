@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling", "wheel"]
+requires = ["uv_build>=0.11.16,<0.12"]
+build-backend = "uv_build"
 
 [project]
 name = "nectarengine"
@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "command line tool and python library for sending hive engine tokens"
 readme = "README.md"
 keywords = ["hive", "nft", "tools"]
-license = { text = "MIT License" }
+license = "MIT"
 maintainers = [{ name = "Michael Garcia", email = "thecrazygm@gmail.com" }]
 authors = [
   { name = "Michael Garcia", email = "thecrazygm@gmail.com" },
@@ -18,7 +18,6 @@ requires-python = ">=3.10"
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
@@ -29,21 +28,30 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = ["click-shell>=2.1", "hive-nectar", "httpx2>=2.2.0"]
-urls."Bug Tracker" = "https://github.com/srbde/nectarengine/issues"
-urls.Documentation = "https://nectarengine.readthedocs.io"
-urls.Homepage = "https://github.com/srbde/nectarengine"
-scripts.nectarengine = "nectarengine.cli:cli"
+[project.urls]
+"Bug Tracker" = "https://github.com/srbde/nectarengine/issues"
+Documentation = "https://nectarengine.readthedocs.io"
+Homepage = "https://github.com/srbde/nectarengine"
+
+[project.scripts]
+nectarengine = "nectarengine.cli:cli"
 
 [dependency-groups]
-dev = ["pytest", "sphinx", "sphinx-click", "sphinx-rtd-theme", "tomli"]
+dev = [
+  "pytest",
+  "pytest-xdist",
+  "sphinx",
+  "sphinx-click",
+  "sphinx-rtd-theme",
+  "tomli",
+]
 
 [tool.uv]
-default-groups = []
+publish-url = "https://test.pypi.org/legacy/"
 
 [[tool.uv.index]]
 name = "testpypi"
 url = "https://test.pypi.org/simple/"
-publish-url = "https://test.pypi.org/legacy/"
 explicit = true
 
 [tool.ruff]
@@ -69,9 +77,13 @@ lint.exclude = [
 lint.per-file-ignores."**/{tests,docs,tools}/*" = ["E402"]
 lint.per-file-ignores."__init__.py" = ["E402"]
 
-[tool.pytest]
-ini_options.python_files = ["test_*.py"]
-ini_options.testpaths = ["tests"]
+[tool.pytest.ini_options]
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+addopts = ["-rw", "--doctest-modules", "-n", "auto"]
+markers = [
+  "network: tests that require network access to live blockchain nodes",
+]
 
 [tool.mypy]
 python_version = ">3.10"

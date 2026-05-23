@@ -3,6 +3,7 @@ import os
 import tempfile
 import time
 from unittest.mock import MagicMock, patch
+import pytest
 
 from nectarengine.nodeslist import (
     _BEACON_HE_HISTORY_NODES_URL,
@@ -10,6 +11,14 @@ from nectarengine.nodeslist import (
     CACHE_DURATION,
     Nodes,
 )
+
+
+@pytest.fixture(autouse=True)
+def mock_tempdir(tmp_path):
+    with patch("tempfile.gettempdir", return_value=str(tmp_path)), \
+         patch("nectarengine.nodeslist.tempfile.gettempdir", return_value=str(tmp_path)):
+        yield
+
 
 
 def get_cache_file(url):
