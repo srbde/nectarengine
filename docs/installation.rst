@@ -44,7 +44,7 @@ Alternatively, you can use pip:
 
 Manual installation
 -------------------
-    
+
 You can install nectarengine from this repository if you want the latest development version:
 
 .. code:: bash

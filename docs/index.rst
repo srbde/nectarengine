@@ -4,7 +4,7 @@ Welcome to nectarengine's documentation!
 Hive Engine is a smart contracts platform on top of the Hive blockchain. It
 allows for the creation and management of custom tokens, NFTs, and markets.
 
-nectarengine is a Python library built on top of `Nectar <https://github.com/srbde/hive-nectar>`_ 
+nectarengine is a Python library built on top of `Nectar <https://github.com/srbde/hive-nectar>`_
 that simplifies interacting with the Hive Engine sidechain. It provides
 a clean, resilient interface for token operations, market trading, and NFT management.
 

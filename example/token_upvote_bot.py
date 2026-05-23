@@ -44,7 +44,7 @@ if __name__ == "__main__":
                 continue
             try:
                 c = Comment(h["memo"], blockchain_instance=hv)
-            except:
+            except Exception:
                 print("%s is not a valid url, skipping" % h["memo"])
                 continue
 

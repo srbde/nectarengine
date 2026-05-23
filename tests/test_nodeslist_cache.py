@@ -3,6 +3,7 @@ import os
 import tempfile
 import time
 from unittest.mock import MagicMock, patch
+
 import pytest
 
 from nectarengine.nodeslist import (
@@ -15,10 +16,11 @@ from nectarengine.nodeslist import (
 
 @pytest.fixture(autouse=True)
 def mock_tempdir(tmp_path):
-    with patch("tempfile.gettempdir", return_value=str(tmp_path)), \
-         patch("nectarengine.nodeslist.tempfile.gettempdir", return_value=str(tmp_path)):
+    with (
+        patch("tempfile.gettempdir", return_value=str(tmp_path)),
+        patch("nectarengine.nodeslist.tempfile.gettempdir", return_value=str(tmp_path)),
+    ):
         yield
-
 
 
 def get_cache_file(url):
@@ -87,7 +89,7 @@ def test_nectarengine_disk_cache():
 
         # 4. Fetch history nodes again (Cache Hit)
         print("\n[Step 4] Fetch History Nodes (Cache Hit)")
-        hist_nodes2 = nodes_obj.beacon_history()
+        nodes_obj.beacon_history()
         assert mock_get.call_count == 2  # Should NOT increment
         print(" -> API NOT called")
 
@@ -96,7 +98,7 @@ def test_nectarengine_disk_cache():
         old_time = time.time() - (CACHE_DURATION + 10)
         os.utime(cache_file, (old_time, old_time))
 
-        nodes3 = nodes_obj.beacon()
+        nodes_obj.beacon()
         assert mock_get.call_count == 3  # Should increment
         print(" -> API called (cache expired)")
 

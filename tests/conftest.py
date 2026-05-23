@@ -2,6 +2,7 @@
 
 import sys
 from pathlib import Path
+
 import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -16,14 +17,13 @@ def pytest_collection_modifyitems(config, items):
         "test_utils.py",
         "test_nodeslist_cache.py",
     }
-    
+
     for item in items:
         module_path = item.fspath
         if module_path:
             filename = Path(module_path).name
-            
+
             is_offline = filename in offline_files
-            
+
             if not is_offline:
                 item.add_marker(pytest.mark.network)
-

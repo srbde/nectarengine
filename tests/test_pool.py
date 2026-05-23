@@ -48,7 +48,7 @@ def test_calculate_tokens_out(test_pool):
     # Test token calculations
     tokens = test_pool.get_tokens()
     token_in = tokens[0]
-    token_out = tokens[1]
+    tokens[1]
 
     # Test valid calculation
     amount_out = test_pool.calculate_tokens_out(token_in, "1.0")
@@ -66,7 +66,7 @@ def test_calculate_tokens_out(test_pool):
 def test_calculate_tokens_in(test_pool):
     # Test token calculations
     tokens = test_pool.get_tokens()
-    token_in = tokens[0]
+    tokens[0]
     token_out = tokens[1]
 
     # Test valid calculation
