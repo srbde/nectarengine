@@ -28,6 +28,7 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = ["click-shell>=2.1", "hive-nectar", "httpx2>=2.2.0"]
+
 [project.urls]
 "Bug Tracker" = "https://github.com/srbde/nectarengine/issues"
 Documentation = "https://nectarengine.readthedocs.io"
@@ -84,10 +85,3 @@ addopts = ["-rw", "--doctest-modules", "-n", "auto"]
 markers = [
   "network: tests that require network access to live blockchain nodes",
 ]
-
-[tool.mypy]
-python_version = ">3.10"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
