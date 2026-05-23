@@ -1,145 +1,127 @@
-# nectarengine
+# 🐝 nectarengine
 
-Python tools for obtaining and processing hive engine tokens
+**The modern Python library for Hive Engine tokens. Built for 2025 and beyond.**
 
-[![Latest Version](https://img.shields.io/pypi/v/nectarengine.svg)](https://pypi.python.org/pypi/nectarengine/)
+`nectarengine` is the high-performance companion to [Nectar](https://github.com/srbde/hive-nectar), specifically designed for interacting with the Hive Engine sidechain. While Nectar handles the core blockchain layer, `nectarengine` provides an opinionated, resilient, and simplified interface for token operations, market trading, and NFT management.
 
+If you are building on Hive Engine, `nectarengine` is the tool you need.
+
+---
+
+[![PyPI version](https://img.shields.io/pypi/v/nectarengine.svg)](https://pypi.python.org/pypi/nectarengine/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/nectarengine.svg)](https://pypi.python.org/pypi/nectarengine/)
+[![License](https://img.shields.io/github/license/srbde/nectarengine.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://nectarengine.readthedocs.io)
 
-## Installation
+---
+
+## Why nectarengine?
+
+Three ways `nectarengine` simplifies sidechain development.
+
+### ⚡ Built on Nectar
+
+`nectarengine` is built on top of [Nectar](https://github.com/srbde/hive-nectar), inheriting its modern cryptography, connection pooling, and resilient transport layers. It replaces legacy sidechain tools with a clean, typed API.
+
+### 🐳 Container-Native & Serverless Ready
+
+Inheriting Nectar's philosophy, `nectarengine` is designed to run anywhere. It handles environment-specific challenges—like read-only filesystems in Docker or Kubernetes—by defaulting to in-memory fallbacks when local storage is unavailable.
+
+### 🪙 Unified Sidechain Interface
+
+Forget complex JSON-RPC calls. `nectarengine` provides dedicated objects for:
+
+- **Tokens**: Easy balance checks, transfers, and metadata lookups.
+- **Market**: Seamless buy/sell orders and order book management.
+- **NFTs**: Comprehensive support for minting, transferring, and querying digital assets.
+
+---
+
+## 🚀 Quick Start
+
+Requires Python >= 3.10.
 
 ```bash
 pip install nectarengine
 ```
 
-## Commands
-
-Get the latest block of the sidechain
+### Get sidechain status
 
 ```python
 from nectarengine.api import Api
+
 api = Api()
-print(api.get_latest_block_info())
+print(f"Latest Block: {api.get_latest_block_info()['blockNumber']}")
 ```
 
-Get the block with the specified block number of the sidechain
-
-```python
-from nectarengine.api import Api
-api = Api()
-print(api.get_block_info(1910))
-```
-
-Retrieve the specified transaction info of the sidechain
-
-```python
-from nectarengine.api import Api
-api = Api()
-print(api.get_transaction_info("e6c7f351b3743d1ed3d66eb9c6f2c102020aaa5d"))
-```
-
-Get the contract specified from the database
-
-```python
-from nectarengine.api import Api
-api = Api()
-print(api.get_contract("tokens"))
-```
-
-Get an array of objects that match the query from the table of the specified contract
-
-```python
-from nectarengine.api import Api
-api = Api()
-print(api.find("tokens", "tokens"))
-```
-
-Get the object that matches the query from the table of the specified contract
-
-```python
-from nectarengine.api import Api
-api = Api()
-print(api.find_one("tokens", "tokens"))
-```
-
-Get the transaction history for an account and a token
-
-```python
-from nectarengine.api import Api
-api = Api()
-print(api.get_history("thecrazygm", "INCOME"))
-```
-
-## Token transfer
+### Send Tokens
 
 ```python
 from nectar import Hive
 from nectarengine.wallet import Wallet
-hv = Hive(keys=["5xx"])
-wallet = Wallet("test_user", blockchain_instance=hv)
-wallet.transfer("test1",1,"TST", memo="This is a test")
+
+# Initialize Hive with your active key
+hive = Hive(keys=["your-active-private-key"])
+
+# Create a wallet for the account
+wallet = Wallet("youraccount", blockchain_instance=hive)
+
+# Transfer 1.0 BEE to a recipient
+wallet.transfer("recipient", 1.0, "BEE", memo="Sent with nectarengine")
 ```
 
-## Buy/Sell
-
-### Create a buy order
+### Trade on the Market
 
 ```python
 from nectar import Hive
 from nectarengine.market import Market
-hv = Hive(keys=["5xx"])
-m=Market(blockchain_instance=hv)
-m.buy("test_user", 1, "TST", 9.99)
+
+hive = Hive(keys=["your-active-private-key"])
+market = Market(blockchain_instance=hive)
+
+# Buy 100 SWAP.HIVE with BEE at a price of 0.5
+market.buy("youraccount", 100, "SWAP.HIVE", 0.5)
 ```
 
-### Create a sell order
+---
 
-```python
-from nectar import Hive
-from nectarengine.market import Market
-hv = Hive(keys=["5xx"])
-m=Market(blockchain_instance=hv)
-m.sell("test_user", 1, "TST", 9.99)
+## 🛠️ System Prerequisites
+
+On platforms where binary wheels for `coincurve` and `cryptography` are not precompiled, build tools are required to compile the C extensions.
+
+### Debian / Ubuntu
+
+```bash
+sudo apt-get install build-essential libssl-dev python3-dev python3-pip libffi-dev libtool autoconf automake pkg-config
 ```
 
-### Cancel a buy order
+### Fedora / RHEL
 
-```python
-from nectar import Hive
-from nectarengine.market import Market
-hv = Hive(keys=["5xx"])
-m=Market(blockchain_instance=hv)
-open_buy_orders = m.get_buy_book("TST", "test_user")
-m.cancel("test_user", "buy", open_buy_orders[0]["_id"])
+```bash
+sudo dnf install gcc openssl-devel python3-devel libffi-devel libtool autoconf automake pkgconfig
 ```
 
-### Cancel a sell order
+---
 
-```python
-from nectar import Hive
-from nectarengine.market import Market
-hv = Hive(keys=["5xx"])
-m=Market(blockchain_instance=hv)
-open_sell_orders = m.get_sell_book("TST", "test_user")
-m.cancel("test_user", "sell", open_sell_orders[0]["_id"])
-```
+## 🌐 Built by SRBDE
 
-### Deposit Hive
+`nectarengine` is developed and maintained by the **Sustainable Resource and Business Development Enterprise (SRBDE)** — an open-source infrastructure organization building tools and platforms for communities that build things together.
 
-```python
-from nectar import Hive
-from nectarengine.market import Market
-hv = Hive(keys=["5xx"])
-m=Market(blockchain_instance=hv)
-m.deposit("test_user", 10)
-```
+We apply the logic of agricultural sustainability to software: the goal is always to return more to the ecosystem than we extract.
 
-### Withdrawal
+- **Open source is our value, not just our business model.**
+- **Our commercial products fund our open-source core. The open work is the mission.**
 
-```python
-from nectar import Hive
-from nectarengine.market import Market
-hv = Hive(keys=["5xx"])
-m=Market(blockchain_instance=hv)
-m.withdraw("test_user", 10)
-```
+### Explore the Ecosystem
+
+| Project                                             | Description                      |
+| --------------------------------------------------- | -------------------------------- |
+| [hive-nectar](https://github.com/srbde/hive-nectar) | The core Hive blockchain library |
+| [ecoinstats.net](https://ecoinstats.net)            | SRBDE corporate hub              |
+| [thecrazygm.com](https://thecrazygm.com)            | Open gaming tools & TTRPGs       |
+
+---
+
+## 🤝 Contributing
+
+Audits, forks, and pull requests are welcome. If you find a security issue, please open a private advisory rather than a public issue.

@@ -39,7 +39,7 @@ def test_nectarengine_disk_cache():
     # Setup mocks
     mock_payload = [{"endpoint": "https://mock.he.node", "score": 100}]
 
-    with patch("nectarengine.nodeslist.httpx.get") as mock_get:
+    with patch("nectarengine.nodeslist.httpx2.get") as mock_get:
         mock_response = MagicMock()
         mock_response.json.return_value = mock_payload
         mock_response.raise_for_status.return_value = None

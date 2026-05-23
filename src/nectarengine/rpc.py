@@ -4,7 +4,7 @@ import re
 from builtins import object, str
 from typing import Any, Dict, List, Optional, Union
 
-import httpx
+import httpx2
 
 from .version import version as nectarengine_version
 
@@ -30,25 +30,25 @@ class UnauthorizedError(Exception):
 
 
 class SessionInstance(object):
-    """Singelton for the Session Instance"""
+    """Singleton for the Session Instance"""
 
-    instance: Optional[httpx.Client] = None
+    instance: Optional[httpx2.Client] = None
 
 
-def set_session_instance(instance: httpx.Client) -> None:
+def set_session_instance(instance: httpx2.Client) -> None:
     """Set session instance"""
     SessionInstance.instance = instance
 
 
-def shared_session_instance() -> httpx.Client:
+def shared_session_instance() -> httpx2.Client:
     """Get session instance"""
     if not SessionInstance.instance:
-        SessionInstance.instance = httpx.Client()
+        SessionInstance.instance = httpx2.Client()
     return SessionInstance.instance
 
 
 def get_endpoint_name(*args: Any, **kwargs: Any) -> str:
-    # Sepcify the endpoint to talk to
+    # Specify the endpoint to talk to
     endpoint = "contracts"
     if ("endpoint" in kwargs) and len(kwargs["endpoint"]) > 0:
         endpoint = kwargs["endpoint"]
@@ -84,7 +84,7 @@ class RPC(object):
         self.user = user
         self.password = password
         if url is None:
-            self.url = "https://engine.thecrazygm.com/"
+            self.url = "https://enginerpc.com/"
         else:
             # Ensure URL has trailing slash
             self.url = url if url.endswith("/") else url + "/"

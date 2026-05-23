@@ -84,7 +84,7 @@ class ApiFallbackTests(unittest.TestCase):
         self.assertEqual(first_rpc.someMethod.call_count, 2)
         self.assertEqual(second_rpc.someMethod.call_count, 1)
 
-    @patch("nectarengine.api.httpx.get")
+    @patch("nectarengine.api.httpx2.get")
     @patch("nectarengine.api.RPC")
     def test_get_history_retries_history_endpoint(self, mock_rpc: Mock, mock_get: Mock):
         fail_response = Mock()

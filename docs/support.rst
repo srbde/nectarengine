@@ -2,6 +2,8 @@
 Support and Questions
 *********************
 
-Help and discussion channel for nectarengine can be found here:
+`nectarengine` is developed and maintained by **SRBDE**. 
 
-* https://discord.gg/sjzBRNGzkk
+Help and discussion channel for the Nectar ecosystem can be found here:
+
+* **Discord**: https://discord.gg/sjzBRNGzkk

@@ -1,7 +1,7 @@
 import logging
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Union, cast
 
-import httpx
+import httpx2
 
 from .nodeslist import Node, Nodes
 from .rpc import RPC, RPCError, RPCErrorDoRetry
@@ -104,7 +104,7 @@ class _RPCPool:
                     return rpc_method(*args, **kwargs)
                 except RPCError:
                     raise
-                except (RPCErrorDoRetry, httpx.HTTPError, ValueError) as exc:
+                except (RPCErrorDoRetry, httpx2.HTTPError, ValueError) as exc:
                     last_exc = exc
                     log.warning(
                         "RPC endpoint %s failed (attempt %s/%s on node %s/%s): %s",
@@ -218,10 +218,10 @@ class Api:
             "symbol": symbol,
         }
         history_endpoint = f"{self.history_url}accountHistory"
-        response = httpx.get(history_endpoint, params=params)
+        response = httpx2.get(history_endpoint, params=params)
         cnt2 = 0
         while response.status_code != 200 and cnt2 < self._history_retry_limit:
-            response = httpx.get(history_endpoint, params=params)
+            response = httpx2.get(history_endpoint, params=params)
             cnt2 += 1
         return response.json()
 

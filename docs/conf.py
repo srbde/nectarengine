@@ -53,8 +53,8 @@ master_doc = "index"
 
 # General information about the project.
 project = "nectarengine"
-copyright = "2025, thecrazygm"
-author = "thecrazygm"
+copyright = "2025, srbde"
+author = "srbde"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
