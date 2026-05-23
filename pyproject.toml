@@ -27,7 +27,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
 ]
-dependencies = ["click-shell>=2.1", "hive-nectar", "httpx2>=2.2.0"]
+dependencies = ["click-shell>=2.1", "hive-nectar>=1.0.0", "httpx2>=2.2.0"]
 
 [project.urls]
 "Bug Tracker" = "https://github.com/srbde/nectarengine/issues"
@@ -39,8 +39,10 @@ nectarengine = "nectarengine.cli:cli"
 
 [dependency-groups]
 dev = [
+  "coverage",
   "pytest",
   "pytest-xdist",
+  "ruff",
   "sphinx",
   "sphinx-click",
   "sphinx-rtd-theme",
@@ -55,28 +57,24 @@ name = "testpypi"
 url = "https://test.pypi.org/simple/"
 explicit = true
 
+[tool.uv.sources]
+hive-nectar = { path = "../hive-nectar", editable = true }
+
 [tool.ruff]
 target-version = "py310"
 line-length = 100
-format.indent-style = "space"
-format.quote-style = "double"
-lint.select = ["E", "F", "I", "W"]
-lint.ignore = ["E501"]
-lint.exclude = [
-  "*.egg-info",
-  "*.pyc",
-  ".cache",
-  ".eggs",
-  ".git",
-  ".tox",
-  "__pycache__",
-  "build",
-  "dist",
-  "docs/source/conf.py",
-  "tests/fixtures/*",
-]
-lint.per-file-ignores."**/{tests,docs,tools}/*" = ["E402"]
-lint.per-file-ignores."__init__.py" = ["E402"]
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/{tests,docs,tools}/*" = ["E402"]
+"__init__.py" = ["E402"]
 
 [tool.pytest.ini_options]
 python_files = ["test_*.py"]
