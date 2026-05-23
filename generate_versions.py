@@ -25,7 +25,8 @@ def get_version():
 def write_version_py(filename, version):
     """Write version."""
     content = f'''"""THIS FILE IS GENERATED FROM nectarengine PYPROJECT.TOML."""
-version = "{version}"'''
+version = "{version}"
+'''
     with open(filename, "w") as file:
         file.write(content)
 
