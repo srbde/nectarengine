@@ -6,6 +6,17 @@ from nectarengine.nodeslist import Node, Nodes
 
 
 class NodesListTests(unittest.TestCase):
+    def setUp(self):
+        # Prevent local cache from interfering with tests
+        self.exists_patcher = patch("nectarengine.nodeslist.os.path.exists", return_value=False)
+        self.exists_patcher.start()
+        self.open_patcher = patch("nectarengine.nodeslist.open", unittest.mock.mock_open())
+        self.open_patcher.start()
+
+    def tearDown(self):
+        self.exists_patcher.stop()
+        self.open_patcher.stop()
+
     def test_node_trailing_slash_and_string_representation(self):
         node = Node(rank=1.0, url="https://foo.example", data={})
         self.assertEqual(node.as_url(), "https://foo.example/")
