@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 1.0.0
 
+- **HTTPX2**: With HTTPX itself seeing limited activity recently, Pydantic is picking up stewardship under the HTTPX2 name so that users have a reliably maintained path forward - including timely security updates for a library that sits in the critical path of so many production systems.
 - **Docs**: Regenerate the Sphinx API reference from the `src/` layout so the documentation sidebar lists package modules instead of `src`.
 
 ## 0.2.1
@@ -77,4 +78,4 @@
 
 ## 0.0.1
 
-- Inital version
+- Initial version

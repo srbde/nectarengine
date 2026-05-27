@@ -4,12 +4,23 @@ import tempfile
 import time
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 from nectarengine.nodeslist import (
     _BEACON_HE_HISTORY_NODES_URL,
     _BEACON_HE_NODES_URL,
     CACHE_DURATION,
     Nodes,
 )
+
+
+@pytest.fixture(autouse=True)
+def mock_tempdir(tmp_path):
+    with (
+        patch("tempfile.gettempdir", return_value=str(tmp_path)),
+        patch("nectarengine.nodeslist.tempfile.gettempdir", return_value=str(tmp_path)),
+    ):
+        yield
 
 
 def get_cache_file(url):
@@ -39,7 +50,7 @@ def test_nectarengine_disk_cache():
     # Setup mocks
     mock_payload = [{"endpoint": "https://mock.he.node", "score": 100}]
 
-    with patch("nectarengine.nodeslist.httpx.get") as mock_get:
+    with patch("nectarengine.nodeslist.httpx2.get") as mock_get:
         mock_response = MagicMock()
         mock_response.json.return_value = mock_payload
         mock_response.raise_for_status.return_value = None
@@ -78,7 +89,7 @@ def test_nectarengine_disk_cache():
 
         # 4. Fetch history nodes again (Cache Hit)
         print("\n[Step 4] Fetch History Nodes (Cache Hit)")
-        hist_nodes2 = nodes_obj.beacon_history()
+        nodes_obj.beacon_history()
         assert mock_get.call_count == 2  # Should NOT increment
         print(" -> API NOT called")
 
@@ -87,7 +98,7 @@ def test_nectarengine_disk_cache():
         old_time = time.time() - (CACHE_DURATION + 10)
         os.utime(cache_file, (old_time, old_time))
 
-        nodes3 = nodes_obj.beacon()
+        nodes_obj.beacon()
         assert mock_get.call_count == 3  # Should increment
         print(" -> API called (cache expired)")
 

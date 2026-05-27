@@ -6,9 +6,9 @@ We welcome your contributions to our project.
 Repository
 ----------
 
-The repository of nectar is currently located at:
+The repository of nectarengine is currently located at:
 
-    https://github.com/thecrazygm/nectarengine
+    https://github.com/srbde/nectarengine
 
 Flow
 ----
@@ -26,7 +26,7 @@ How to Contribute
 1. Fork or branch from the master.
 2. Create commits following the commit style
 3. Start a pull request to the master branch
-4. Wait for a @thecrazygm or another member to review
+4. Wait for a @srbde member to review
 
 Issues
 ------
@@ -52,5 +52,5 @@ submitting patches and additions. In general, we follow the
 Copyright and Licensing
 -----------------------
 
-This library is open sources under the MIT license. We require your to
+This library is open sources under the MIT license. We require you to
 release your code under that license as well.

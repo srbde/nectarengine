@@ -8,7 +8,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterator, List, Optional, Sequence, Union, overload
 
-import httpx
+import httpx2
 
 _BEACON_HE_NODES_URL = "https://beacon.peakd.com/api/he/nodes"
 _BEACON_HE_HISTORY_NODES_URL = "https://beacon.peakd.com/api/heh/nodes"
@@ -147,7 +147,7 @@ class Nodes(Sequence[Node]):
 
         if payload is None:
             try:
-                response = httpx.get(url, timeout=timeout)
+                response = httpx2.get(url, timeout=timeout)
                 response.raise_for_status()
                 payload = response.json()
 
@@ -157,7 +157,7 @@ class Nodes(Sequence[Node]):
                         json.dump(payload, f)
                 except IOError:
                     pass  # Ignore cache write errors
-            except httpx.HTTPError as exc:
+            except httpx2.HTTPError as exc:
                 # If fetch fails, try to fallback to expired cache
                 if os.path.exists(cache_file):
                     try:

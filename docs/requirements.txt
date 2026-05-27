@@ -1,15 +1,2 @@
-autobahn
-future
-ecdsa
-requests
-nectar
-pyyaml
-pytest
-pytest-mock
-coverage
-mock
-appdirs
-Click
-prettytable
-sphinx_rtd_theme
 sphinx-click
+sphinx-rtd-theme

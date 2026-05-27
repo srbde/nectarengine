@@ -6,12 +6,23 @@ from nectarengine.nodeslist import Node, Nodes
 
 
 class NodesListTests(unittest.TestCase):
+    def setUp(self):
+        # Prevent local cache from interfering with tests
+        self.exists_patcher = patch("nectarengine.nodeslist.os.path.exists", return_value=False)
+        self.exists_patcher.start()
+        self.open_patcher = patch("nectarengine.nodeslist.open", unittest.mock.mock_open())
+        self.open_patcher.start()
+
+    def tearDown(self):
+        self.exists_patcher.stop()
+        self.open_patcher.stop()
+
     def test_node_trailing_slash_and_string_representation(self):
         node = Node(rank=1.0, url="https://foo.example", data={})
         self.assertEqual(node.as_url(), "https://foo.example/")
         self.assertEqual(str(node), "https://foo.example/")
 
-    @patch("nectarengine.nodeslist.httpx.get")
+    @patch("nectarengine.nodeslist.httpx2.get")
     def test_refresh_calls_beacon(self, mock_get: Mock):
         mock_response = Mock()
         mock_response.raise_for_status.return_value = None
@@ -26,7 +37,7 @@ class NodesListTests(unittest.TestCase):
         self.assertEqual(len(nodes), 2)
         self.assertEqual(nodes[0].url, "https://node-a/")
 
-    @patch("nectarengine.nodeslist.httpx.get")
+    @patch("nectarengine.nodeslist.httpx2.get")
     def test_node_list_triggers_refresh_when_empty(self, mock_get: Mock):
         mock_response = Mock()
         mock_response.raise_for_status.return_value = None
@@ -79,7 +90,7 @@ class NodesListTests(unittest.TestCase):
             Api(url=[nodes.node_list()[1]])
             rpc.assert_called_once_with(url="https://secondary.example/", user=None, password=None)
 
-    @patch("nectarengine.nodeslist.httpx.get")
+    @patch("nectarengine.nodeslist.httpx2.get")
     def test_beacon_fetches_and_sorts_nodes(self, mock_get: Mock):
         mock_response = Mock()
         mock_response.raise_for_status.return_value = None
@@ -98,7 +109,7 @@ class NodesListTests(unittest.TestCase):
         )
         self.assertEqual(beacon_nodes[1].failing_cause, "2 failed health checks")
 
-    @patch("nectarengine.nodeslist.httpx.get")
+    @patch("nectarengine.nodeslist.httpx2.get")
     def test_beacon_history_fetches_nodes(self, mock_get: Mock):
         mock_response = Mock()
         mock_response.raise_for_status.return_value = None
