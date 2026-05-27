@@ -41,7 +41,6 @@ nectarengine = "nectarengine.cli:cli"
 dev = [
   "coverage",
   "pytest",
-  "pytest-xdist",
   "ruff",
   "sphinx",
   "sphinx-click",
@@ -79,7 +78,7 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 python_files = ["test_*.py"]
 testpaths = ["tests"]
-addopts = ["-rw", "--doctest-modules", "-n", "auto"]
+addopts = ["-rw", "--doctest-modules"]
 markers = [
   "network: tests that require network access to live blockchain nodes",
 ]
