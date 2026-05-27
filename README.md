@@ -1,4 +1,4 @@
-# 🐝 nectarengine
+# ⚙️ nectarengine
 
 **The modern Python library for Hive Engine tokens. Built for production. Made to last.**
 
