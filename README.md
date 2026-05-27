@@ -1,6 +1,6 @@
 # 🐝 nectarengine
 
-**The modern Python library for Hive Engine tokens. Built for 2025 and beyond.**
+**The modern Python library for Hive Engine tokens. Built for production. Made to last.**
 
 `nectarengine` is the high-performance companion to [Nectar](https://github.com/srbde/hive-nectar), specifically designed for interacting with the Hive Engine sidechain. While Nectar handles the core blockchain layer, `nectarengine` provides an opinionated, resilient, and simplified interface for token operations, market trading, and NFT management.
 
