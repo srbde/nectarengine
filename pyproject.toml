@@ -57,7 +57,7 @@ url = "https://test.pypi.org/simple/"
 explicit = true
 
 [tool.uv.sources]
-hive-nectar = { path = "../hive-nectar", editable = true }
+hive-nectar = { git = "https://github.com/srbde/hive-nectar", rev = "main" }
 
 [tool.ruff]
 target-version = "py310"
