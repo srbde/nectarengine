@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- **Testing**: Added `pytest-recording` integration (VCR cassettes) for network tests, mapping `httpx2`/`httpcore2` to standard VCR.py patchers. This enables 100% offline, deterministic, and fast test execution.
+
 ## 1.0.0
 
 - **HTTPX2**: With HTTPX itself seeing limited activity recently, Pydantic is picking up stewardship under the HTTPX2 name so that users have a reliably maintained path forward - including timely security updates for a library that sits in the critical path of so many production systems.

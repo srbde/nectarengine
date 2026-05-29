@@ -1,6 +1,16 @@
 Changelog
 =========
 
+1.0.1
+-----
+
+- **Testing**: Added ``pytest-recording`` integration (VCR cassettes) for
+  network tests, mapping ``httpx2``/``httpcore2`` to standard VCR.py
+  patchers. This enables 100% offline, deterministic, and fast test
+  execution.
+
+.. _section-0:
+
 1.0.0
 -----
 

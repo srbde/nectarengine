@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: '[{"method": "findOne", "jsonrpc": "2.0", "params": {"contract": "tokens",
+      "table": "tokens", "query": {"symbol": "BEE"}}, "id": 1}]'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '131'
+      Host:
+      - enginerpc.com
+      User-Agent:
+      - nectarengine v1.0.1
+      content-type:
+      - application/json
+    method: POST
+    uri: https://enginerpc.com/contracts
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA2VRyY6jMBD9FVRnGszWxBynFWnundswiipQQzxtbOQlvUT59ymi9KbBp6q3+D38
+        6wx/vTVuGaCDMhOQghqhK1Jw5KMO0J1hf9so7yM55pmoNRP963ywmucf2y2PBmfi4ac6UbI1kzKU
+        7OwTGYZmCjhiQIbPPUSne+h6OIaw+C7Pj6y4o6siG+zcQ9qDGqz5RvJVhjO+WYPPfmXlPhDNN1mu
+        ZpzI56tq/xXYTw5HRSZk/jRdjUfyw9WYQyfKJ+FIicGwhg5r2uSPddfl1x6LxsB7jnbhNoujQXll
+        DXQb7oYvj3FZ9CuXk0K0hZRlU7e1kLLIxO1b/9Y7qd5UbVPVWbO5b8q6ahgblBsi36HM9OFVbcqi
+        kCJrRNnykatFwCembA0eNPGbBBcphWhu+wdr9WifOVYtUi6qaWJLa/7jf0KfkpYfMM4HcjuHxuOw
+        op6dUgg2oH7kK1YLuC9L2VZZKZpKVrKGy+X3P020rWNEAgAA
+    headers:
+      CF-RAY:
+      - a035db9ecb031d64-ATL
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 29 May 2026 13:31:10 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=%2B%2FGWREhvC5BvbCdSkk7jD9OAlPBtYuLaRNCQNSCu6vxlUyeoV1bMyg%2BMa1RHhzrz7jWp380vZS90Lb7W2IKiL2T6HU8gzO0qhP4aykc54EEslqJ5FwoN6oHjG33yoCH2PKNjwXmG7bCh6UrW"}]}'
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=2592000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      access-control-allow-methods:
+      - '*'
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      expect-ct:
+      - max-age=86400, enforce
+      referrer-policy:
+      - same-origin
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: OK
+version: 1

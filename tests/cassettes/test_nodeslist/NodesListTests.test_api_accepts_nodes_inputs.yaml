@@ -1,0 +1,260 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Host:
+      - beacon.peakd.com
+      User-Agent:
+      - python-httpx2/2.2.0
+    method: GET
+    uri: https://beacon.peakd.com/api/heh/nodes
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBY9QUAQg0pIFBnrANDjJEI3koHCWMI1tOQQ1Q1IPh/YJ/oA46qqrAGBoLClHIgCIA60Slu
+        MhJsN7VNUhLoYKds5Xdk+NJwRufa0ot4Qc8rZ7c9HC39wGuHo0PPvM5NPrpAYiDqWJowPYwAAkvJ
+        Sgpb7PpuC7PdmGcerWXoV0bHR0/Xw/hYbuLoRVEoP93N9Q1ffBi4R3eiUwsfAm7axGtUgYzNr7l+
+        nQZvUAgIAApQFZACqhoE1cCmmJhSc+Nl5mCt9g==
+    headers:
+      CF-RAY:
+      - a035db355e57addc-ATL
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 29 May 2026 13:30:54 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=8FEm0vCSzdGLAtUaKagxArib%2F%2FHnGiywrgLOmowfhuKGQi%2F2AZTca3VLbeNjxX0InVXvhNnNZAoBt8b2daFlYcf6x22Q1d1ZMvM9raHcwEUFMoYLR%2FPJI2FppRHy4aTd9CvEg%2FwQf0bfDSNfPk13"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      content-security-policy:
+      - 'default-src ''self'';base-uri ''self'';font-src ''self'' https: data:;form-action
+        ''self'';frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      cross-origin-opener-policy:
+      - same-origin
+      cross-origin-resource-policy:
+      - same-origin
+      etag:
+      - W/"1bb-D603mhb23f5efp1OtBN45LnysX4"
+      origin-agent-cluster:
+      - ?1
+      referrer-policy:
+      - no-referrer
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-cache:
+      - MISS
+      x-content-type-options:
+      - nosniff
+      x-dns-prefetch-control:
+      - 'off'
+      x-download-options:
+      - noopen
+      x-frame-options:
+      - SAMEORIGIN
+      x-permitted-cross-domain-policies:
+      - none
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '117'
+      x-ratelimit-reset:
+      - '1780061510'
+      x-xss-protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Host:
+      - beacon.peakd.com
+      User-Agent:
+      - python-httpx2/2.2.0
+    method: GET
+    uri: https://beacon.peakd.com/api/heh/nodes
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBY9QUAQg0pIFBnrANDjJEI3koHCWMI1tOQQ1Q1IPh/YJ/oA46qqrAGBoLClHIgCIA60Slu
+        MhJsN7VNUhLoYKds5Xdk+NJwRufa0ot4Qc8rZ7c9HC39wGuHo0PPvM5NPrpAYiDqWJowPYwAAkvJ
+        Sgpb7PpuC7PdmGcerWXoV0bHR0/Xw/hYbuLoRVEoP93N9Q1ffBi4R3eiUwsfAm7axGtUgYzNr7l+
+        nQZvUAgIAApQFZACqhoE1cCmmJhSc+Nl5mCt9g==
+    headers:
+      CF-RAY:
+      - a035db398e0c2c05-ATL
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 29 May 2026 13:30:54 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=yp2vSGcLLLqvxeg6i0Dt2NQj%2BTfDGPioWlAqjTUemVnQzRXSRoRJHKjJuyadY%2BjRBLdR3cPllIbl6Aa2aSSIB8uPOpq9M%2BMusUP9lqm4129tBngHvxeCVQCCXpOdgmMx38ad5JIiSuK%2FIDzLK2s3"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      content-security-policy:
+      - 'default-src ''self'';base-uri ''self'';font-src ''self'' https: data:;form-action
+        ''self'';frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      cross-origin-opener-policy:
+      - same-origin
+      cross-origin-resource-policy:
+      - same-origin
+      etag:
+      - W/"1bb-D603mhb23f5efp1OtBN45LnysX4"
+      origin-agent-cluster:
+      - ?1
+      referrer-policy:
+      - no-referrer
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-cache:
+      - MISS
+      x-content-type-options:
+      - nosniff
+      x-dns-prefetch-control:
+      - 'off'
+      x-download-options:
+      - noopen
+      x-frame-options:
+      - SAMEORIGIN
+      x-permitted-cross-domain-policies:
+      - none
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '116'
+      x-ratelimit-reset:
+      - '1780061510'
+      x-xss-protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      Host:
+      - beacon.peakd.com
+      User-Agent:
+      - python-httpx2/2.2.0
+    method: GET
+    uri: https://beacon.peakd.com/api/heh/nodes
+  response:
+    body:
+      string: !!binary |
+        KLUv/QBY9QUAQg0pIFBnrANDjJEI3koHCWMI1tOQQ1Q1IPh/YJ/oA46qqrAGBoLClHIgCIA60Slu
+        MhJsN7VNUhLoYKds5Xdk+NJwRufa0ot4Qc8rZ7c9HC39wGuHo0PPvM5NPrpAYiDqWJowPYwAAkvJ
+        Sgpb7PpuC7PdmGcerWXoV0bHR0/Xw/hYbuLoRVEoP93N9Q1ffBi4R3eiUwsfAm7axGtUgYzNr7l+
+        nQZvUAgIAApQFZACqhoE1cCmmJhSc+Nl5mCt9g==
+    headers:
+      CF-RAY:
+      - a035db3de840a0f6-ATL
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - zstd
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 29 May 2026 13:30:55 GMT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=lT%2FgfSHc1Tv7CSXN%2BeLvAbzc268uRS6k1TR9cl8%2ByuXZ1w2XeWXP1%2FCPjHx0gieJV7FSfSRKgufTfMY0O9b15gxHGOFSvMCDYVpU9QiM1aQ7VEpEKgyaiqxLxsb%2FXJiJTKooA%2F6j658eTnZ8pvL7"}]}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      access-control-allow-origin:
+      - '*'
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      content-security-policy:
+      - 'default-src ''self'';base-uri ''self'';font-src ''self'' https: data:;form-action
+        ''self'';frame-ancestors ''self'';img-src ''self'' data:;object-src ''none'';script-src
+        ''self'';script-src-attr ''none'';style-src ''self'' https: ''unsafe-inline'';upgrade-insecure-requests'
+      cross-origin-opener-policy:
+      - same-origin
+      cross-origin-resource-policy:
+      - same-origin
+      etag:
+      - W/"1bb-D603mhb23f5efp1OtBN45LnysX4"
+      origin-agent-cluster:
+      - ?1
+      referrer-policy:
+      - no-referrer
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-cache:
+      - MISS
+      x-content-type-options:
+      - nosniff
+      x-dns-prefetch-control:
+      - 'off'
+      x-download-options:
+      - noopen
+      x-frame-options:
+      - SAMEORIGIN
+      x-permitted-cross-domain-policies:
+      - none
+      x-ratelimit-limit:
+      - '120'
+      x-ratelimit-remaining:
+      - '115'
+      x-ratelimit-reset:
+      - '1780061510'
+      x-xss-protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1
