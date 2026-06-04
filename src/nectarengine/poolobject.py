@@ -127,7 +127,7 @@ class Pool(dict):
                 return None
         return None
 
-    def calculate_tokens_out(self, token_symbol: str, token_amount_in: float) -> str:
+    def calculate_tokens_out(self, token_symbol: str, token_amount_in: Union[float, str]) -> str:
         """Calculate the expected output amount for an exactInput swap
 
         :param str token_symbol: Symbol of the input token
@@ -160,7 +160,7 @@ class Pool(dict):
 
         # Apply the constant product formula (k = x * y)
         # Calculate new y after the swap: y' = (x * y) / (x + amount_in)
-        fee_multiplier = decimal.Decimal("0.997")  # 0.3% fee
+        fee_multiplier = decimal.Decimal("0.9975")  # 0.25% fee
         amount_in_with_fee = token_amount_in_decimal * fee_multiplier
         new_x = x + amount_in_with_fee
         new_y = (x * y) / new_x
@@ -168,7 +168,7 @@ class Pool(dict):
 
         return str(tokens_out)
 
-    def calculate_tokens_in(self, token_symbol: str, token_amount_out: float) -> str:
+    def calculate_tokens_in(self, token_symbol: str, token_amount_out: Union[float, str]) -> str:
         """Calculate the required input amount for an exactOutput swap
 
         :param str token_symbol: Symbol of the output token
@@ -199,8 +199,8 @@ class Pool(dict):
             raise ValueError(f"Insufficient liquidity for {token_amount_out} {token_symbol}")
 
         # Apply the constant product formula (k = x * y)
-        # Calculate required input: amount_in = (x * amount_out) / (y - amount_out) / 0.997
-        fee_divisor = decimal.Decimal("0.997")  # 0.3% fee
+        # Calculate required input: amount_in = (x * amount_out) / (y - amount_out) / 0.9975
+        fee_divisor = decimal.Decimal("0.9975")  # 0.25% fee
         new_y = y - token_amount_out_decimal
         tokens_in_without_fee = (x * token_amount_out_decimal) / new_y
         tokens_in = tokens_in_without_fee / fee_divisor

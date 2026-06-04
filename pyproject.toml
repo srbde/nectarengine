@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "nectarengine"
-version = "1.0.0"
+version = "1.0.1"
 description = "command line tool and python library for sending hive engine tokens"
 readme = "README.md"
 keywords = ["hive", "nft", "tools"]
@@ -41,6 +41,7 @@ nectarengine = "nectarengine.cli:cli"
 dev = [
   "coverage",
   "pytest",
+  "pytest-recording",
   "ruff",
   "sphinx",
   "sphinx-click",
