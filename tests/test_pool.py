@@ -87,3 +87,25 @@ def test_get_tokens(test_pool):
     assert isinstance(tokens, list)
     assert len(tokens) == 2
     assert all(isinstance(token, str) for token in tokens)
+
+
+def test_calculate_tokens_precision():
+    # Construct a Pool object manually with dict
+    # This avoids making network calls and lets us test the calculation math directly.
+    pool = Pool(
+        {"tokenPair": "AAA:BBB", "baseQuantity": "1000.00000000", "quoteQuantity": "2000.00000000"}
+    )
+
+    # Calculate tokens out for base (AAA) -> quote (BBB)
+    # x = 1000.0, y = 2000.0
+    # amount_in = 10.0
+    # amount_in_with_fee = 10.0 * 0.9975 = 9.975
+    # new_x = 1000.0 + 9.975 = 1009.975
+    # new_y = 2000000 / 1009.975 = 1980.2470358177189647020966...
+    # expected_out = 2000.0 - 1980.2470358177189647020966 = 19.752964182281739647020966
+    out_amount = pool.calculate_tokens_out("AAA", "10.0")
+    assert out_amount == "19.752964182281739647020966"
+
+    # Calculate tokens in for quote (BBB) desired -> base (AAA) input required
+    in_amount = pool.calculate_tokens_in("BBB", "19.752964182281739647020966")
+    assert in_amount == "10.00000000000000000000000007"
