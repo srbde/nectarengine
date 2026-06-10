@@ -1,5 +1,5 @@
 import decimal
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from nectarengine.api import Api
 from nectarengine.exceptions import PoolDoesNotExist
@@ -11,7 +11,7 @@ class Pool(dict):
     :param str token_pair: Token pair in the format 'TOKEN1:TOKEN2'
     """
 
-    def __init__(self, token_pair: Union[str, Dict[str, Any]], api: Optional[Api] = None) -> None:
+    def __init__(self, token_pair: str | dict[str, Any], api: Api | None = None) -> None:
         if api is None:
             self.api = Api()
         else:
@@ -31,7 +31,7 @@ class Pool(dict):
         else:
             raise PoolDoesNotExist(self.token_pair)
 
-    def get_info(self) -> Optional[Dict[str, Any]]:
+    def get_info(self) -> dict[str, Any] | None:
         """Returns information about the liquidity pool"""
         pool_data = self.api.find_one("marketpools", "pools", query={"tokenPair": self.token_pair})
         if pool_data and isinstance(pool_data, dict):
@@ -39,13 +39,13 @@ class Pool(dict):
         return None
 
     def get_liquidity_positions(
-        self, account: Optional[str] = None, limit: int = 100, offset: int = 0
-    ) -> List[Dict[str, Any]]:
+        self, account: str | None = None, limit: int = 100, offset: int = 0
+    ) -> list[dict[str, Any]]:
         """Returns liquidity positions for this pool
 
         :param str account: Optional account name to filter positions
         """
-        query: Dict[str, Any] = {"tokenPair": self.token_pair}
+        query: dict[str, Any] = {"tokenPair": self.token_pair}
         if account is not None:
             query["account"] = account
 
@@ -54,22 +54,22 @@ class Pool(dict):
         )
 
     @property
-    def positions(self) -> List[Dict[str, Any]]:
+    def positions(self) -> list[dict[str, Any]]:
         """Returns all liquidity positions for this pool (property wrapper for get_all_liquidity_positions with account=None)."""
         return self.get_all_liquidity_positions(account=None)
 
-    def get_all_liquidity_positions(self, account: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_all_liquidity_positions(self, account: str | None = None) -> list[dict[str, Any]]:
         """Returns all liquidity positions for this pool by looping through all pages
 
         :param str account: Optional account name to filter positions
         """
-        query: Dict[str, Any] = {"tokenPair": self.token_pair}
+        query: dict[str, Any] = {"tokenPair": self.token_pair}
         if account is not None:
             query["account"] = account
 
         return self.api.find_all("marketpools", "liquidityPositions", query=query)
 
-    def get_reward_pools(self) -> List[Dict[str, Any]]:
+    def get_reward_pools(self) -> list[dict[str, Any]]:
         """Returns reward pools for this liquidity pool"""
         reward_pools = self.api.find("mining", "pools", query={"tokenPair": self.token_pair})
         return reward_pools
@@ -91,7 +91,7 @@ class Pool(dict):
                 pass
         return decimal.Decimal("0")
 
-    def get_quote_price(self) -> Optional[decimal.Decimal]:
+    def get_quote_price(self) -> decimal.Decimal | None:
         """
         Returns the 'quotePrice' from the pool data as a Decimal.
         'quotePrice' typically represents the price of the quote token in terms of the base token.
@@ -109,7 +109,7 @@ class Pool(dict):
                 return None
         return None
 
-    def get_base_price(self) -> Optional[decimal.Decimal]:
+    def get_base_price(self) -> decimal.Decimal | None:
         """
         Returns the 'basePrice' from the pool data as a Decimal.
         'basePrice' typically represents the price of the base token in terms of the quote token.
@@ -127,7 +127,7 @@ class Pool(dict):
                 return None
         return None
 
-    def calculate_tokens_out(self, token_symbol: str, token_amount_in: Union[float, str]) -> str:
+    def calculate_tokens_out(self, token_symbol: str, token_amount_in: float | str) -> str:
         """Calculate the expected output amount for an exactInput swap
 
         :param str token_symbol: Symbol of the input token
@@ -168,7 +168,7 @@ class Pool(dict):
 
         return str(tokens_out)
 
-    def calculate_tokens_in(self, token_symbol: str, token_amount_out: Union[float, str]) -> str:
+    def calculate_tokens_in(self, token_symbol: str, token_amount_out: float | str) -> str:
         """Calculate the required input amount for an exactOutput swap
 
         :param str token_symbol: Symbol of the output token
@@ -207,7 +207,7 @@ class Pool(dict):
 
         return str(tokens_in)
 
-    def get_tokens(self) -> List[str]:
+    def get_tokens(self) -> list[str]:
         """Returns the tokens in this pool as a list [base_token, quote_token]
 
         :return: List of token symbols in the pool

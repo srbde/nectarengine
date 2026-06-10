@@ -17,7 +17,7 @@ try against your own private node or reduce the `count` parameter.
 
 import pprint
 import sys
-from typing import Any, Dict, List
+from typing import Any
 
 from nectarengine.api import Api
 
@@ -29,7 +29,7 @@ def main() -> None:
     api = Api(url="http://localhost:5000/")  # Optionally pass a custom rpc URL via Api(url="...")
 
     try:
-        blocks: List[Dict[str, Any]] = api.get_block_range_info(start_block, count)
+        blocks: list[dict[str, Any]] = api.get_block_range_info(start_block, count)
     except Exception as exc:
         print(f"Error while calling get_block_range_info: {exc}")
         sys.exit(1)

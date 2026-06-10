@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from nectar.account import Account
 from nectar.instance import shared_blockchain_instance
@@ -26,7 +26,7 @@ class Collection(dict):
     """
 
     def __init__(
-        self, account: str, api: Optional[Api] = None, blockchain_instance: Optional[Any] = None
+        self, account: str, api: Api | None = None, blockchain_instance: Any | None = None
     ) -> None:
         if api is None:
             self.api = Api()
@@ -46,9 +46,9 @@ class Collection(dict):
         """Sets the ssc id (default is ssc-mainnet-hive)"""
         self.ssc_id = ssc_id
 
-    def get_collection(self) -> Dict[str, List[Dict[str, Any]]]:
+    def get_collection(self) -> dict[str, list[dict[str, Any]]]:
         """Returns all token within the wallet as list"""
-        collection: Dict[str, List[Dict[str, Any]]] = {}
+        collection: dict[str, list[dict[str, Any]]] = {}
         for symbol in self.nfts.get_symbol_list():
             nft = Nft(symbol)
             tokenlist = nft.get_collection(self.account)
@@ -62,7 +62,7 @@ class Collection(dict):
         self.account = check_account["name"]
         self.refresh()
 
-    def get_nft(self, nft_id: str, symbol: str) -> Optional[Dict[str, Any]]:
+    def get_nft(self, nft_id: str, symbol: str) -> dict[str, Any] | None:
         """Returns a token from the wallet. Is None when not available."""
         for token in self[symbol]:
             if token["_id"].lower() == nft_id:
@@ -70,8 +70,8 @@ class Collection(dict):
         return None
 
     def transfer(
-        self, to: str, nfts: List[Dict[str, Any]], from_type: str = "user", to_type: str = "user"
-    ) -> Dict[str, Any]:
+        self, to: str, nfts: list[dict[str, Any]], from_type: str = "user", to_type: str = "user"
+    ) -> dict[str, Any]:
         """Transfer a token to another account.
 
         :param str to: Recipient
@@ -95,7 +95,7 @@ class Collection(dict):
         assert from_type in ["user", "contract"]
         assert to_type in ["user", "contract"]
         assert len(nfts) > 0
-        contract_payload: Dict[str, Any] = {"to": to, "nfts": nfts}
+        contract_payload: dict[str, Any] = {"to": to, "nfts": nfts}
         if from_type == "contract":
             contract_payload["fromType"] = from_type
         if to_type == "contract":
@@ -109,7 +109,7 @@ class Collection(dict):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[self.account])
         return tx
 
-    def burn(self, nfts: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def burn(self, nfts: list[dict[str, Any]]) -> dict[str, Any]:
         """Burn a token
 
         :param list nfts: Amount to transfer
@@ -138,8 +138,8 @@ class Collection(dict):
         return tx
 
     def delegate(
-        self, to: str, nfts: List[Dict[str, Any]], from_type: str = "user", to_type: str = "user"
-    ) -> Dict[str, Any]:
+        self, to: str, nfts: list[dict[str, Any]], from_type: str = "user", to_type: str = "user"
+    ) -> dict[str, Any]:
         """Delegate a token to another account.
 
         :param str to: Recipient
@@ -162,7 +162,7 @@ class Collection(dict):
         assert len(nfts) > 0
         assert from_type in ["user", "contract"]
         assert to_type in ["user", "contract"]
-        contract_payload: Dict[str, Any] = {"to": to, "nfts": nfts}
+        contract_payload: dict[str, Any] = {"to": to, "nfts": nfts}
         if from_type == "contract":
             contract_payload["fromType"] = from_type
         if to_type == "contract":
@@ -177,8 +177,8 @@ class Collection(dict):
         return tx
 
     def undelegate(
-        self, to: str, nfts: List[Dict[str, Any]], from_type: str = "user"
-    ) -> Dict[str, Any]:
+        self, to: str, nfts: list[dict[str, Any]], from_type: str = "user"
+    ) -> dict[str, Any]:
         """Undelegate a token to another account.
 
         :param str to: Recipient
@@ -199,7 +199,7 @@ class Collection(dict):
         """
         assert len(nfts) > 0
         assert from_type in ["user", "contract"]
-        contract_payload: Dict[str, Any] = {"nfts": nfts}
+        contract_payload: dict[str, Any] = {"nfts": nfts}
         if from_type == "contract":
             contract_payload["fromType"] = from_type
         json_data = {

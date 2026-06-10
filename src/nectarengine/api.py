@@ -1,5 +1,6 @@
 import logging
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Union, cast
+from collections.abc import Iterable, Sequence
+from typing import Any, Union, cast
 
 import httpx2
 
@@ -9,8 +10,8 @@ from .rpc import RPC, RPCError, RPCErrorDoRetry
 NodeInput = Union[
     str,
     Node,
-    Dict[str, Any],
-    Sequence[Union[str, Node, Dict[str, Any]]],
+    dict[str, Any],
+    Sequence[Union[str, Node, dict[str, Any]]],
     Nodes,
 ]
 log = logging.getLogger(__name__)
@@ -23,19 +24,19 @@ def _ensure_trailing_slash(url: str) -> str:
     return url if url.endswith("/") else url + "/"
 
 
-def _iterable_node_inputs(value: NodeInput) -> Sequence[Union[str, Node, Dict[str, Any]]]:
+def _iterable_node_inputs(value: NodeInput) -> Sequence[str | Node | dict[str, Any]]:
     if isinstance(value, (list, tuple)):
-        return cast(Sequence[Union[str, Node, Dict[str, Any]]], value)
+        return cast(Sequence[Union[str, Node, dict[str, Any]]], value)
     if isinstance(value, Nodes):
         return list(value)
-    return cast(Sequence[Union[str, Node, Dict[str, Any]]], [value])
+    return cast(Sequence[Union[str, Node, dict[str, Any]]], [value])
 
 
-def _normalize_node_inputs(value: Optional[NodeInput]) -> List[str]:
+def _normalize_node_inputs(value: NodeInput | None) -> list[str]:
     if value is None:
         return []
 
-    urls: List[str] = []
+    urls: list[str] = []
     for candidate in _iterable_node_inputs(value):
         if isinstance(candidate, Node):
             urls.append(candidate.as_url())
@@ -53,16 +54,16 @@ def _normalize_node_inputs(value: Optional[NodeInput]) -> List[str]:
     return urls
 
 
-def _normalize_single_url(value: Optional[NodeInput]) -> Optional[str]:
+def _normalize_single_url(value: NodeInput | None) -> str | None:
     urls = _normalize_node_inputs(value)
     if urls:
         return urls[0]
     return None
 
 
-def _deduplicate_preserve_order(urls: Iterable[str]) -> List[str]:
+def _deduplicate_preserve_order(urls: Iterable[str]) -> list[str]:
     seen: set[str] = set()
-    ordered: List[str] = []
+    ordered: list[str] = []
     for url in urls:
         normalized = _ensure_trailing_slash(url.strip())
         if normalized not in seen:
@@ -75,7 +76,7 @@ class _RPCPool:
     def __init__(
         self,
         endpoints: Sequence[str],
-        rpc_kwargs: Dict[str, Any],
+        rpc_kwargs: dict[str, Any],
         per_endpoint_attempts: int = 2,
     ) -> None:
         if not endpoints:
@@ -96,7 +97,7 @@ class _RPCPool:
         self._rpc = self._build_rpc(self._endpoints[self._current_index])
 
     def _execute(self, method_name: str, *args: Any, **kwargs: Any) -> Any:
-        last_exc: Optional[Exception] = None
+        last_exc: Exception | None = None
         for endpoint_index in range(len(self._endpoints)):
             for attempt in range(1, self._per_endpoint_attempts + 1):
                 try:
@@ -148,11 +149,11 @@ class Api:
 
     def __init__(
         self,
-        url: Optional[NodeInput] = None,
-        rpcurl: Optional[NodeInput] = None,
-        history_url: Optional[NodeInput] = None,
-        user: Optional[str] = None,
-        password: Optional[str] = None,
+        url: NodeInput | None = None,
+        rpcurl: NodeInput | None = None,
+        history_url: NodeInput | None = None,
+        user: str | None = None,
+        password: str | None = None,
         **kwargs: Any,
     ) -> None:
         rpc_endpoint_attempts = kwargs.pop("rpc_endpoint_attempts", 2)
@@ -162,11 +163,11 @@ class Api:
         user_rpc_candidates = _normalize_node_inputs(rpcurl)
         user_url_candidates = _normalize_node_inputs(url)
 
-        endpoint_candidates: List[str] = []
+        endpoint_candidates: list[str] = []
         endpoint_candidates.extend(user_rpc_candidates)
         endpoint_candidates.extend(user_url_candidates)
 
-        nodes_helper: Optional[Nodes] = None
+        nodes_helper: Nodes | None = None
 
         if not endpoint_candidates:
             nodes_helper = Nodes(auto_refresh=False)
@@ -209,7 +210,7 @@ class Api:
 
     def get_history(
         self, account: str, symbol: str, limit: int = 1000, offset: int = 0
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """ "Get the transaction history for an account and a token"""
         params = {
             "account": account,
@@ -225,7 +226,7 @@ class Api:
             cnt2 += 1
         return response.json()
 
-    def get_latest_block_info(self) -> Dict[str, Any]:
+    def get_latest_block_info(self) -> dict[str, Any]:
         """get the latest block of the sidechain"""
         ret = self.rpc.getLatestBlockInfo(endpoint="blockchain")
         if isinstance(ret, list) and len(ret) == 1:
@@ -233,7 +234,7 @@ class Api:
         else:
             return ret
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """gets the status of the sidechain"""
         ret = self.rpc.getStatus(endpoint="blockchain")
         if isinstance(ret, list) and len(ret) == 1:
@@ -241,7 +242,7 @@ class Api:
         else:
             return ret
 
-    def get_block_info(self, blocknumber: int) -> Dict[str, Any]:
+    def get_block_info(self, blocknumber: int) -> dict[str, Any]:
         """get the block with the specified block number of the sidechain"""
         ret = self.rpc.getBlockInfo({"blockNumber": blocknumber}, endpoint="blockchain")
         if isinstance(ret, list) and len(ret) == 1:
@@ -249,7 +250,7 @@ class Api:
         else:
             return ret
 
-    def get_block_range_info(self, start_block: int, count: int) -> List[Dict[str, Any]]:
+    def get_block_range_info(self, start_block: int, count: int) -> list[dict[str, Any]]:
         """Get information for a consecutive range of blocks.
 
         This is a convenience wrapper around the ``getBlockRangeInfo`` JSON-RPC
@@ -278,7 +279,7 @@ class Api:
             return ret[0]
         return ret
 
-    def get_transaction_info(self, txid: str) -> Dict[str, Any]:
+    def get_transaction_info(self, txid: str) -> dict[str, Any]:
         """Retrieve the specified transaction info of the sidechain"""
         ret = self.rpc.getTransactionInfo({"txid": txid}, endpoint="blockchain")
         if isinstance(ret, list) and len(ret) == 1:
@@ -286,7 +287,7 @@ class Api:
         else:
             return ret
 
-    def get_contract(self, contract_name: str) -> Optional[Dict[str, Any]]:
+    def get_contract(self, contract_name: str) -> dict[str, Any] | None:
         """Get the contract specified from the database"""
         ret = self.rpc.getContract({"name": contract_name}, endpoint="contracts")
         if isinstance(ret, list) and len(ret) == 1:
@@ -295,8 +296,8 @@ class Api:
             return ret
 
     def find_one(
-        self, contract_name: str, table_name: str, query: Dict[str, Any] = {}
-    ) -> Optional[Dict[str, Any]]:
+        self, contract_name: str, table_name: str, query: dict[str, Any] = {}
+    ) -> dict[str, Any] | None:
         """Get the object that matches the query from the table of the specified contract"""
         ret = self.rpc.findOne(
             {"contract": contract_name, "table": table_name, "query": query},
@@ -315,11 +316,11 @@ class Api:
         self,
         contract_name: str,
         table_name: str,
-        query: Dict[str, Any] = {},
+        query: dict[str, Any] = {},
         limit: int = 1000,
         offset: int = 0,
-        indexes: List[str] = [],
-    ) -> List[Dict[str, Any]]:
+        indexes: list[str] = [],
+    ) -> list[dict[str, Any]]:
         """Get an array of objects that match the query from the table of the specified contract"""
         ret = self.rpc.find(
             {
@@ -338,12 +339,12 @@ class Api:
             return ret
 
     def find_all(
-        self, contract_name: str, table_name: str, query: Dict[str, Any] = {}
-    ) -> List[Dict[str, Any]]:
+        self, contract_name: str, table_name: str, query: dict[str, Any] = {}
+    ) -> list[dict[str, Any]]:
         """Get an array of objects that match the query from the table of the specified contract"""
         limit = 1000
         offset = 0
-        result: List[Dict[str, Any]] = []
+        result: list[dict[str, Any]] = []
 
         # Initial fetch
         batch = self.find(contract_name, table_name, query, limit=limit, offset=0)
@@ -376,12 +377,12 @@ class Api:
         self,
         contract_name: str,
         table_name: str,
-        query: Optional[Dict[str, Any]] = None,
+        query: dict[str, Any] | None = None,
         limit: int = 1000,
         offset: int = 0,
-        last_id: Optional[str] = None,
-        indexes: Optional[List[str]] = None,
-    ) -> List[Dict[str, Any]]:
+        last_id: str | None = None,
+        indexes: list[str] | None = None,
+    ) -> list[dict[str, Any]]:
         """
         Get an array of objects that match the query, supporting last_id for efficient pagination.
         This mirrors the 'findMany' functionality in hiveenginepy.

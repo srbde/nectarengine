@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from nectar.instance import shared_blockchain_instance
 
@@ -14,9 +14,7 @@ class NftMarket(list):
            instance
     """
 
-    def __init__(
-        self, api: Optional[Api] = None, blockchain_instance: Optional[Any] = None
-    ) -> None:
+    def __init__(self, api: Api | None = None, blockchain_instance: Any | None = None) -> None:
         if api is None:
             self.api = Api()
         else:
@@ -32,18 +30,18 @@ class NftMarket(list):
     def get_sell_book(
         self,
         symbol: str,
-        account: Optional[str] = None,
-        grouping_name: Optional[str] = None,
-        grouping_value: Optional[str] = None,
-        priceSymbol: Optional[str] = None,
-        nftId: Optional[str] = None,
-        limit: Optional[int] = None,
-    ) -> List[Dict[str, Any]]:
+        account: str | None = None,
+        grouping_name: str | None = None,
+        grouping_value: str | None = None,
+        priceSymbol: str | None = None,
+        nftId: str | None = None,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
         """Returns the sell book for a given symbol. When account is set,
         the order book from the given account is shown.
         """
         nft = Nft(symbol, api=self.api)
-        query: Dict[str, Any] = {}
+        query: dict[str, Any] = {}
         if account is not None:
             query["account"] = account
         if grouping_name is not None and grouping_value is not None:
@@ -61,16 +59,16 @@ class NftMarket(list):
         self,
         symbol: str,
         side: str = "sell",
-        grouping_name: Optional[str] = None,
-        grouping_value: Optional[str] = None,
-        priceSymbol: Optional[str] = None,
-        limit: Optional[int] = None,
-    ) -> List[Dict[str, Any]]:
+        grouping_name: str | None = None,
+        grouping_value: str | None = None,
+        priceSymbol: str | None = None,
+        limit: int | None = None,
+    ) -> list[dict[str, Any]]:
         """Returns the sell book for a given symbol. When account is set,
         the order book from the given account is shown.
         """
         nft = Nft(symbol, api=self.api)
-        query: Dict[str, Any] = {}
+        query: dict[str, Any] = {}
         query["side"] = side
         if grouping_name is not None and grouping_value is not None:
             query["grouping." + grouping_name] = grouping_value
@@ -84,15 +82,15 @@ class NftMarket(list):
     def get_trades_history(
         self,
         symbol: str,
-        account: Optional[str] = None,
-        priceSymbol: Optional[str] = None,
-        timestamp: Optional[int] = None,
-    ) -> List[Dict[str, Any]]:
+        account: str | None = None,
+        priceSymbol: str | None = None,
+        timestamp: int | None = None,
+    ) -> list[dict[str, Any]]:
         """Returns the trade history for a given symbol. When account is set,
         the trade history from the given account is shown.
         """
         nft = Nft(symbol, api=self.api)
-        query: Dict[str, Any] = {}
+        query: dict[str, Any] = {}
         if account is not None:
             query["account"] = account
         if priceSymbol is not None:
@@ -100,7 +98,7 @@ class NftMarket(list):
         if timestamp is not None:
             query["timestamp"] = timestamp
         trades_history = nft.get_trade_history(query=query, limit=-1)
-        new_trades_history: List[Dict[str, Any]] = []
+        new_trades_history: list[dict[str, Any]] = []
         last_id = None
         for trade in trades_history[::-1]:
             if last_id is None:
@@ -114,8 +112,8 @@ class NftMarket(list):
         return new_trades_history[::-1]
 
     def buy(
-        self, symbol: str, account: str, nft_ids: Union[List[str], str], market_account: str
-    ) -> Dict[str, Any]:
+        self, symbol: str, account: str, nft_ids: list[str] | str, market_account: str
+    ) -> dict[str, Any]:
         """Buy nfts for given price.
 
         :param str symbol: symbol
@@ -136,7 +134,7 @@ class NftMarket(list):
             market = NftMarket(blockchain_instance=hive)
             market.buy("STAR", "test", ["1"], "nftmarket")
         """
-        nft_list: List[str] = []
+        nft_list: list[str] = []
         if not isinstance(nft_ids, list):
             nft_list = [str(nft_ids)]
         else:
@@ -160,11 +158,11 @@ class NftMarket(list):
         self,
         symbol: str,
         account: str,
-        nft_ids: Union[List[str], str],
+        nft_ids: list[str] | str,
         price: float,
         price_symbol: str,
         fee: int,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Sell token for given price.
 
         :param str symbol: symbol
@@ -186,7 +184,7 @@ class NftMarket(list):
             market.sell("STAR", "test", ["1"], 100, "STARBITS", 500)
 
         """
-        nft_list: List[str] = []
+        nft_list: list[str] = []
         if not isinstance(nft_ids, list):
             nft_list = [str(nft_ids)]
         else:
@@ -209,8 +207,8 @@ class NftMarket(list):
         return tx
 
     def change_price(
-        self, symbol: str, account: str, nft_ids: Union[List[str], str], price: float
-    ) -> Dict[str, Any]:
+        self, symbol: str, account: str, nft_ids: list[str] | str, price: float
+    ) -> dict[str, Any]:
         """Change a price for a listed nft id
 
         :param str symbol: nft symbol
@@ -231,7 +229,7 @@ class NftMarket(list):
 
         """
 
-        nft_list: List[str] = []
+        nft_list: list[str] = []
         if not isinstance(nft_ids, list):
             nft_list = [str(nft_ids)]
         else:
@@ -247,7 +245,7 @@ class NftMarket(list):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[account])
         return tx
 
-    def cancel(self, symbol: str, account: str, nft_ids: Union[List[str], str]) -> Dict[str, Any]:
+    def cancel(self, symbol: str, account: str, nft_ids: list[str] | str) -> dict[str, Any]:
         """Cancel sell order.
 
         :param str symbol: symbol
@@ -266,7 +264,7 @@ class NftMarket(list):
             market.cancel("STAR", "test", ["1"])
 
         """
-        nft_list: List[str] = []
+        nft_list: list[str] = []
         if not isinstance(nft_ids, list):
             nft_list = [str(nft_ids)]
         else:

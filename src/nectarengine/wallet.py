@@ -1,5 +1,5 @@
 import decimal
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from nectar.account import Account
 from nectar.instance import shared_blockchain_instance
@@ -33,7 +33,7 @@ class Wallet(list):
     """
 
     def __init__(
-        self, account: str, api: Optional[Api] = None, blockchain_instance: Optional[Any] = None
+        self, account: str, api: Api | None = None, blockchain_instance: Any | None = None
     ) -> None:
         if api is None:
             self.api = Api()
@@ -52,7 +52,7 @@ class Wallet(list):
         """Sets the ssc id (default is ssc-mainnet-hive)"""
         self.ssc_id = ssc_id
 
-    def get_balances(self) -> List[Dict[str, Any]]:
+    def get_balances(self) -> list[dict[str, Any]]:
         """Returns all token within the wallet as list"""
         balances = self.api.find("tokens", "balances", query={"account": self.account})
         return balances
@@ -63,14 +63,14 @@ class Wallet(list):
         self.account = check_account["name"]
         self.refresh()
 
-    def get_token(self, symbol: str) -> Optional[Dict[str, Any]]:
+    def get_token(self, symbol: str) -> dict[str, Any] | None:
         """Returns a token from the wallet. Is None when not available."""
         for token in self:
             if token["symbol"].lower() == symbol.lower():
                 return token
         return None
 
-    def transfer(self, to: str, amount: float, symbol: str, memo: str = "") -> Dict[str, Any]:
+    def transfer(self, to: str, amount: float, symbol: str, memo: str = "") -> dict[str, Any]:
         """Transfer a token to another account.
 
         :param str to: Recipient
@@ -117,7 +117,7 @@ class Wallet(list):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[self.account])
         return tx
 
-    def stake(self, amount: float, symbol: str, receiver: Optional[str] = None) -> Dict[str, Any]:
+    def stake(self, amount: float, symbol: str, receiver: str | None = None) -> dict[str, Any]:
         """Stake a token.
 
         :param float amount: Amount to stake
@@ -159,7 +159,7 @@ class Wallet(list):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[self.account])
         return tx
 
-    def unstake(self, amount: float, symbol: str) -> Dict[str, Any]:
+    def unstake(self, amount: float, symbol: str) -> dict[str, Any]:
         """Unstake a token.
 
         :param float amount: Amount to unstake
@@ -201,7 +201,7 @@ class Wallet(list):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[self.account])
         return tx
 
-    def cancel_unstake(self, trx_id: str) -> Dict[str, Any]:
+    def cancel_unstake(self, trx_id: str) -> dict[str, Any]:
         """Cancel unstaking a token.
 
         :param str trx_id: transaction id in which the tokan was unstaked
@@ -227,7 +227,7 @@ class Wallet(list):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[self.account])
         return tx
 
-    def issue(self, to: str, amount: float, symbol: str) -> Dict[str, Any]:
+    def issue(self, to: str, amount: float, symbol: str) -> dict[str, Any]:
         """Issues a specific token amount.
 
         :param str to: Recipient
@@ -270,13 +270,13 @@ class Wallet(list):
         tx = self.blockchain.custom_json(self.ssc_id, json_data, required_auths=[self.account])
         return tx
 
-    def get_history(self, symbol: str, limit: int = 1000, offset: int = 0) -> List[Dict[str, Any]]:
+    def get_history(self, symbol: str, limit: int = 1000, offset: int = 0) -> list[dict[str, Any]]:
         """Returns the transfer history of a token"""
         return self.api.get_history(self.account, symbol, limit, offset)
 
     def get_buy_book(
-        self, symbol: Optional[str] = None, limit: int = 100, offset: int = 0
-    ) -> List[Dict[str, Any]]:
+        self, symbol: str | None = None, limit: int = 100, offset: int = 0
+    ) -> list[dict[str, Any]]:
         """Returns the buy book for the wallet account. When symbol is set,
         the order book from the given token is shown.
         """
@@ -295,8 +295,8 @@ class Wallet(list):
         return buy_book
 
     def get_sell_book(
-        self, symbol: Optional[str] = None, limit: int = 100, offset: int = 0
-    ) -> List[Dict[str, Any]]:
+        self, symbol: str | None = None, limit: int = 100, offset: int = 0
+    ) -> list[dict[str, Any]]:
         """Returns the sell book for the wallet account. When symbol is set,
         the order book from the given token is shown.
         """

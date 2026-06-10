@@ -5,7 +5,7 @@ import re
 import sys
 import time
 from datetime import datetime
-from typing import Any, List
+from typing import Any
 
 import click
 from click_shell import shell
@@ -1434,7 +1434,7 @@ def nfttrades(symbol, account):
         t = PrettyTable(["date", "account", "from", "Nfts", "price", "priceSymbol", "est. HIVE"])
         t.align = "l"
         t._max_width = {"from": 16, "Nfts": 20}
-        row_sum: List[Any] = ["Sum: ", "", "", 0, "", "", 0]
+        row_sum: list[Any] = ["Sum: ", "", "", 0, "", "", 0]
         for order in new_trades_history:
             hive_price = round(float(order["hive_price"]), 3)
             date = datetime.fromtimestamp(order["timestamp"])

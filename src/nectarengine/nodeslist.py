@@ -5,8 +5,9 @@ import json
 import os
 import tempfile
 import time
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterator, List, Optional, Sequence, Union, overload
+from typing import Any, overload
 
 import httpx2
 
@@ -15,7 +16,7 @@ _BEACON_HE_HISTORY_NODES_URL = "https://beacon.peakd.com/api/heh/nodes"
 
 CACHE_DURATION = 300  # 5 minutes cache
 
-NodeUrlList = List[str]
+NodeUrlList = list[str]
 
 
 @dataclass(order=True)
@@ -24,8 +25,8 @@ class Node:
 
     rank: float
     url: str = field(compare=False)
-    data: Dict[str, Any] = field(default_factory=dict, compare=False)
-    failing_cause: Optional[str] = field(default=None, compare=False)
+    data: dict[str, Any] = field(default_factory=dict, compare=False)
+    failing_cause: str | None = field(default=None, compare=False)
 
     def __post_init__(self) -> None:
         cleaned_url = self.url.strip()
@@ -54,43 +55,43 @@ class Nodes(Sequence[Node]):
         self,
         auto_refresh: bool = True,
     ) -> None:
-        self._nodes: List[Node] = []
+        self._nodes: list[Node] = []
         if auto_refresh:
             self.refresh()
 
-    def refresh(self) -> List[Node]:
+    def refresh(self) -> list[Node]:
         """Reload the node list from the PeakD Beacon API."""
         self._nodes = self.beacon()
         return list(self._nodes)
 
     def beacon(
         self,
-        limit: Optional[int] = None,
+        limit: int | None = None,
         url: str = _BEACON_HE_NODES_URL,
         timeout: int = 15,
-    ) -> List[Node]:
+    ) -> list[Node]:
         """Fetch Hive Engine nodes from the PeakD Beacon API."""
 
         return self._fetch_beacon_nodes(url=url, limit=limit, timeout=timeout)
 
     def beacon_history(
         self,
-        limit: Optional[int] = None,
+        limit: int | None = None,
         url: str = _BEACON_HE_HISTORY_NODES_URL,
         timeout: int = 15,
-    ) -> List[Node]:
+    ) -> list[Node]:
         """Fetch Hive Engine history nodes from the PeakD Beacon API."""
 
         return self._fetch_beacon_nodes(url=url, limit=limit, timeout=timeout)
 
-    def node_list(self) -> List[Node]:
+    def node_list(self) -> list[Node]:
         """Return the currently cached node list, refreshing if empty."""
 
         if not self._nodes:
             self.refresh()
         return list(self._nodes)
 
-    def fastest(self, limit: int = 1) -> List[Node]:
+    def fastest(self, limit: int = 1) -> list[Node]:
         """Return the fastest nodes according to the benchmark ranking."""
 
         nodes = self.node_list()
@@ -98,7 +99,7 @@ class Nodes(Sequence[Node]):
             return []
         return nodes[:limit] if limit < len(nodes) else nodes
 
-    def as_urls(self, limit: Optional[int] = None) -> NodeUrlList:
+    def as_urls(self, limit: int | None = None) -> NodeUrlList:
         """Provide the node URLs, optionally truncated to *limit* entries."""
 
         nodes = self.node_list()
@@ -106,7 +107,7 @@ class Nodes(Sequence[Node]):
             nodes = nodes[:limit]
         return [node.as_url() for node in nodes]
 
-    def primary_url(self) -> Optional[str]:
+    def primary_url(self) -> str | None:
         """Return the highest-ranked node URL or ``None`` if unavailable."""
 
         nodes = self.node_list()
@@ -121,13 +122,13 @@ class Nodes(Sequence[Node]):
     @overload
     def __getitem__(self, index: slice) -> Sequence[Node]: ...
 
-    def __getitem__(self, index: Union[int, slice]) -> Union[Node, Sequence[Node]]:
+    def __getitem__(self, index: int | slice) -> Node | Sequence[Node]:
         return self.node_list()[index]
 
     def __iter__(self) -> Iterator[Node]:
         return iter(self.node_list())
 
-    def _fetch_beacon_nodes(self, url: str, limit: Optional[int], timeout: int) -> List[Node]:
+    def _fetch_beacon_nodes(self, url: str, limit: int | None, timeout: int) -> list[Node]:
         # Generate cache filename based on URL hash
         url_hash = hashlib.md5(url.encode()).hexdigest()
         cache_file = os.path.join(tempfile.gettempdir(), f"nectarengine_cache_{url_hash}.json")
@@ -173,7 +174,7 @@ class Nodes(Sequence[Node]):
         if not isinstance(payload, list):
             raise RuntimeError("Beacon API returned unexpected structure; expected list")
 
-        beacon_nodes: List[Node] = []
+        beacon_nodes: list[Node] = []
         for entry in payload:
             if not isinstance(entry, dict):
                 continue

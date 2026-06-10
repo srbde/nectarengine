@@ -1,7 +1,7 @@
 import json
 import logging
 import re
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 import httpx2
 
@@ -31,7 +31,7 @@ class UnauthorizedError(Exception):
 class SessionInstance:
     """Singleton for the Session Instance"""
 
-    instance: Optional[httpx2.Client] = None
+    instance: httpx2.Client | None = None
 
 
 def set_session_instance(instance: httpx2.Client) -> None:
@@ -72,9 +72,9 @@ class RPC:
 
     def __init__(
         self,
-        url: Optional[str] = None,
-        user: Optional[str] = None,
-        password: Optional[str] = None,
+        url: str | None = None,
+        user: str | None = None,
+        password: str | None = None,
         **kwargs: Any,
     ) -> None:
         """Init."""
@@ -92,7 +92,7 @@ class RPC:
             "User-Agent": "nectarengine v%s" % (nectarengine_version),
             "content-type": "application/json",
         }
-        self.rpc_queue: List[Dict[str, Any]] = []
+        self.rpc_queue: list[dict[str, Any]] = []
 
     def get_request_id(self) -> int:
         """Get request id."""
@@ -162,7 +162,7 @@ class RPC:
         else:
             raise RPCError("Client returned invalid format. Expected JSON!")
 
-    def rpcexec(self, endpoint: str, payload: List[Dict[str, Any]]) -> Any:
+    def rpcexec(self, endpoint: str, payload: list[dict[str, Any]]) -> Any:
         """
         Execute a call by sending the payload.
 
@@ -174,7 +174,7 @@ class RPC:
 
         reply = self.request_send(endpoint, json.dumps(payload, ensure_ascii=False).encode("utf8"))
 
-        ret: Union[Dict[str, Any], List[Any]] = {}
+        ret: dict[str, Any] | list[Any] = {}
         try:
             ret = json.loads(reply, strict=False)
         except ValueError:
@@ -189,7 +189,7 @@ class RPC:
                 raise RPCError(ret["error"]["message"])
         else:
             if isinstance(ret, list):
-                ret_list: List[Any] = []
+                ret_list: list[Any] = []
                 for r in ret:
                     if isinstance(r, dict) and "error" in r:
                         if "detail" in r["error"]:
