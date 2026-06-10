@@ -1,7 +1,6 @@
 import json
 import logging
 import re
-from builtins import object, str
 from typing import Any, Dict, List, Optional, Union
 
 import httpx2
@@ -29,7 +28,7 @@ class UnauthorizedError(Exception):
     pass
 
 
-class SessionInstance(object):
+class SessionInstance:
     """Singleton for the Session Instance"""
 
     instance: Optional[httpx2.Client] = None
@@ -55,7 +54,7 @@ def get_endpoint_name(*args: Any, **kwargs: Any) -> str:
     return endpoint
 
 
-class RPC(object):
+class RPC:
     """
     This class allows to call API methods synchronously, without callbacks.
 

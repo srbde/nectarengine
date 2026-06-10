@@ -15,7 +15,7 @@ class Tokens(list):
         self.refresh()
 
     def refresh(self) -> None:
-        super(Tokens, self).__init__(self.get_token_list())
+        super().__init__(self.get_token_list())
 
     def get_token_list(self) -> List[Dict[str, Any]]:
         """Returns all available token as list"""

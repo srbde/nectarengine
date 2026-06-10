@@ -36,7 +36,7 @@ class Market(list):
         self.refresh()
 
     def refresh(self) -> None:
-        super(Market, self).__init__(self.get_metrics())
+        super().__init__(self.get_metrics())
 
     def set_id(self, ssc_id: str) -> None:
         """Sets the ssc id (default is ssc-mainnet-hive)"""

@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 continue
 
             if c.is_comment() and only_main_posts:
-                print("%s from %s is a comment, skipping" % (c["permlink"], c["author"]))
+                print(f"{c['permlink']} from {c['author']} is a comment, skipping")
                 continue
             if (c.time_elapsed().total_seconds() / 60 / 60 / 24) > max_post_age_days:
                 print("Post is to old, skipping")
@@ -73,7 +73,7 @@ if __name__ == "__main__":
             upvote_weight = float(h["quantity"]) * token_weight_factor
             if upvote_weight > 100:
                 upvote_weight = 100
-            print("upvote %s from %s with %.2f %%" % (c["permlink"], c["author"], upvote_weight))
+            print(f"upvote {c['permlink']} from {c['author']} with {upvote_weight:.2f} %")
             print(c.upvote(weight=upvote_weight, voter=upvote_account))
             if len(reply_comment) > 0:
                 time.sleep(4)

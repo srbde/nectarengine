@@ -4,7 +4,6 @@ import os
 import re
 import sys
 import time
-from builtins import int, str
 from datetime import datetime
 from typing import Any, List
 
@@ -556,7 +555,7 @@ def transfer(to, amount, token, memo, memos, account):
                 continue
             market_info = token_obj.get_market_info()
             if market_info is None:
-                print("transfer  %.8f %s to %s?" % (amount, token, to))
+                print(f"transfer  {amount:.8f} {token} to {to}?")
             else:
                 last_price = float(market_info["lastPrice"])
                 highest_bid = float(market_info["highestBid"])
@@ -565,9 +564,7 @@ def transfer(to, amount, token, memo, memos, account):
                 else:
                     price = highest_bid
                 hive_amount = price * amount
-                print(
-                    "transfer %.8f %s (value %.3f HIVE) to %s?" % (amount, token, hive_amount, to)
-                )
+                print(f"transfer {amount:.8f} {token} (value {hive_amount:.3f} HIVE) to {to}?")
             ret = input("continue [y/n]?")
             if ret not in ["y", "yes"]:
                 continue
@@ -600,7 +597,7 @@ def transfer(to, amount, token, memo, memos, account):
         else:
             price = highest_bid
         hive_amount = price * amount
-        print("transfer %.8f %s (value %.3f HIVE) to %s?" % (amount, token, hive_amount, to))
+        print(f"transfer {amount:.8f} {token} (value {hive_amount:.3f} HIVE) to {to}?")
         ret = input("continue [y/n]?")
         if ret not in ["y", "yes"]:
             return
@@ -668,7 +665,7 @@ def stake(amount, token, account, receiver):
                 continue
             market_info = token_obj.get_market_info()
             if market_info is None:
-                print("stake %.8f %s?" % (amount, token))
+                print(f"stake {amount:.8f} {token}?")
             else:
                 last_price = float(market_info["lastPrice"])
                 highest_bid = float(market_info["highestBid"])
@@ -677,7 +674,7 @@ def stake(amount, token, account, receiver):
                 else:
                     price = highest_bid
                 hive_amount = price * amount
-                print("stake %.8f %s (value %.3f HIVE)?" % (amount, token, hive_amount))
+                print(f"stake {amount:.8f} {token} (value {hive_amount:.3f} HIVE)?")
             ret = input("continue [y/n]?")
             if ret not in ["y", "yes"]:
                 continue
@@ -710,7 +707,7 @@ def stake(amount, token, account, receiver):
         else:
             price = highest_bid
         hive_amount = price * amount
-        print("stake %.8f %s (value %.3f HIVE)?" % (amount, token, hive_amount))
+        print(f"stake {amount:.8f} {token} (value {hive_amount:.3f} HIVE)?")
         ret = input("continue [y/n]?")
         if ret not in ["y", "yes"]:
             return
@@ -753,7 +750,7 @@ def unstake(amount, token, account):
                 continue
             market_info = token_obj.get_market_info()
             if market_info is None:
-                print("unstake %.8f %s?" % (stake, token))
+                print(f"unstake {stake:.8f} {token}?")
             else:
                 last_price = float(market_info["lastPrice"])
                 highest_bid = float(market_info["highestBid"])
@@ -762,7 +759,7 @@ def unstake(amount, token, account):
                 else:
                     price = highest_bid
                 hive_amount = price * stake
-                print("unstake %.8f %s (value %.3f HIVE)?" % (stake, token, hive_amount))
+                print(f"unstake {stake:.8f} {token} (value {hive_amount:.3f} HIVE)?")
             ret = input("continue [y/n]?")
             if ret not in ["y", "yes"]:
                 continue
@@ -795,7 +792,7 @@ def unstake(amount, token, account):
         else:
             price = highest_bid
         hive_amount = price * amount
-        print("unstake %.8f %s (value %.3f HIVE)?" % (amount, token, hive_amount))
+        print(f"unstake {amount:.8f} {token} (value {hive_amount:.3f} HIVE)?")
         ret = input("continue [y/n]?")
         if ret not in ["y", "yes"]:
             return

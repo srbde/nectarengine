@@ -19,7 +19,7 @@ class Pool(dict):
 
         if isinstance(token_pair, dict):
             self.token_pair = token_pair["tokenPair"]
-            super(Pool, self).__init__(token_pair)
+            super().__init__(token_pair)
         else:
             self.token_pair = token_pair.upper()
             self.refresh()
@@ -27,7 +27,7 @@ class Pool(dict):
     def refresh(self) -> None:
         info_data = self.get_info()
         if info_data:
-            super(Pool, self).update(info_data)
+            super().update(info_data)
         else:
             raise PoolDoesNotExist(self.token_pair)
 

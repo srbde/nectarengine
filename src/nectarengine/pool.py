@@ -41,7 +41,7 @@ class LiquidityPool(list):
         self.refresh()
 
     def refresh(self) -> None:
-        super(LiquidityPool, self).__init__(self.get_pools())
+        super().__init__(self.get_pools())
 
     def set_id(self, ssc_id: str) -> None:
         """Sets the ssc id (default is ssc-mainnet-hive)"""
@@ -256,11 +256,11 @@ class LiquidityPool(list):
 
         if float(base_token_in_wallet["balance"]) < float(base_quantity):
             raise InsufficientTokenAmount(
-                "Only %.3f %s in wallet" % (float(base_token_in_wallet["balance"]), base_token)
+                f"Only {float(base_token_in_wallet['balance']):.3f} {base_token} in wallet"
             )
         if float(quote_token_in_wallet["balance"]) < float(quote_quantity):
             raise InsufficientTokenAmount(
-                "Only %.3f %s in wallet" % (float(quote_token_in_wallet["balance"]), quote_token)
+                f"Only {float(quote_token_in_wallet['balance']):.3f} {quote_token} in wallet"
             )
 
         contract_payload: Dict[str, Any] = {

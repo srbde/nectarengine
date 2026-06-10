@@ -18,7 +18,7 @@ class Token(dict):
             self.api = api
         if isinstance(symbol, dict):
             self.symbol = symbol["symbol"]
-            super(Token, self).__init__(symbol)
+            super().__init__(symbol)
         else:
             self.symbol = symbol.upper()
             self.refresh()
@@ -27,7 +27,7 @@ class Token(dict):
         info = self.get_info()
         if info is None:
             raise TokenDoesNotExists("Token %s does not exists!" % self.symbol)
-        super(Token, self).__init__(info)
+        super().__init__(info)
 
     def quantize(self, amount: Union[float, int, str]) -> decimal.Decimal:
         """Round down a amount using the token precision and returns a Decimal object"""

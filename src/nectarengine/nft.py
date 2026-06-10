@@ -23,7 +23,7 @@ class Nft(dict):
         self.ssc_id = "ssc-mainnet-hive"
         if isinstance(symbol, dict):
             self.symbol = symbol["symbol"]
-            super(Nft, self).__init__(symbol)
+            super().__init__(symbol)
         else:
             self.symbol = symbol.upper()
             self.refresh()
@@ -32,7 +32,7 @@ class Nft(dict):
         info = self.get_info()
         if info is None:
             raise NftDoesNotExists("Nft %s does not exists!" % self.symbol)
-        super(Nft, self).__init__(info)
+        super().__init__(info)
 
     def get_info(self) -> Optional[Dict[str, Any]]:
         """Returns information about the nft"""

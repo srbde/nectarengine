@@ -40,7 +40,7 @@ class Collection(dict):
         self.refresh()
 
     def refresh(self) -> None:
-        super(Collection, self).__init__(self.get_collection())
+        super().__init__(self.get_collection())
 
     def set_id(self, ssc_id: str) -> None:
         """Sets the ssc id (default is ssc-mainnet-hive)"""

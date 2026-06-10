@@ -140,9 +140,9 @@ class Nodes(Sequence[Node]):
             try:
                 mtime = os.path.getmtime(cache_file)
                 if current_time - mtime < CACHE_DURATION:
-                    with open(cache_file, "r") as f:
+                    with open(cache_file) as f:
                         payload = json.load(f)
-            except (IOError, json.JSONDecodeError):
+            except (OSError, json.JSONDecodeError):
                 pass  # Fallback to fetch
 
         if payload is None:
@@ -155,15 +155,15 @@ class Nodes(Sequence[Node]):
                 try:
                     with open(cache_file, "w") as f:
                         json.dump(payload, f)
-                except IOError:
+                except OSError:
                     pass  # Ignore cache write errors
             except httpx2.HTTPError as exc:
                 # If fetch fails, try to fallback to expired cache
                 if os.path.exists(cache_file):
                     try:
-                        with open(cache_file, "r") as f:
+                        with open(cache_file) as f:
                             payload = json.load(f)
-                    except (IOError, json.JSONDecodeError):
+                    except (OSError, json.JSONDecodeError):
                         raise RuntimeError(f"Unable to reach beacon service: {exc}") from exc
                 else:
                     raise RuntimeError(f"Unable to reach beacon service: {exc}") from exc

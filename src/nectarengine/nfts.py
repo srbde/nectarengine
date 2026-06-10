@@ -15,7 +15,7 @@ class Nfts(list):
         self.refresh()
 
     def refresh(self) -> None:
-        super(Nfts, self).__init__(self.get_nft_list())
+        super().__init__(self.get_nft_list())
 
     def get_nft_list(self) -> List[Dict[str, Any]]:
         """Returns all available nft as list"""

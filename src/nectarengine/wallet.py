@@ -46,7 +46,7 @@ class Wallet(list):
         self.refresh()
 
     def refresh(self) -> None:
-        super(Wallet, self).__init__(self.get_balances())
+        super().__init__(self.get_balances())
 
     def set_id(self, ssc_id: str) -> None:
         """Sets the ssc id (default is ssc-mainnet-hive)"""
@@ -248,9 +248,7 @@ class Wallet(list):
         """
         token = Token(symbol, api=self.api)
         if token["issuer"] != self.account:
-            raise TokenIssueNotPermitted(
-                "%s is not the issuer of token %s" % (self.account, symbol)
-            )
+            raise TokenIssueNotPermitted(f"{self.account} is not the issuer of token {symbol}")
 
         if token["maxSupply"] == token["supply"]:
             raise MaxSupplyReached(
