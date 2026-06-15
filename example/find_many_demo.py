@@ -5,7 +5,6 @@ Example: Using find_many with Query/Cond helpers
 import time
 
 from nectarengine.api import Api
-from nectarengine.utils import Cond, Query
 
 
 def run():
@@ -13,9 +12,8 @@ def run():
 
     print("Fetching tokens with precision > 0 using find_many...")
 
-    # precise_tokens = api.find_all("tokens", "tokens", {"precision": {"$gt": 0}})
-    # equivalent query using helpers:
-    query = Query.match(precision=Cond.gt(0))
+    # Use standard dictionary for querying
+    query = {"precision": {"$gt": 0}}
 
     # Demonstrate manual pagination with find_many via last_id
     # (Note: find_all does this recursion internally, but find_many allows explicit control)

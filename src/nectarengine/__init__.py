@@ -1,8 +1,12 @@
 """nectarengine."""
 
+import importlib.metadata
 import logging
 
-from .version import version as __version__
+try:
+    __version__ = importlib.metadata.version("nectarengine")
+except importlib.metadata.PackageNotFoundError:
+    __version__ = "1.0.2"
 
 # Silence httpx logs (defaults to INFO)
 logging.getLogger("httpx").setLevel(logging.WARNING)

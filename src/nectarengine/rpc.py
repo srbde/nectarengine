@@ -1,3 +1,4 @@
+import importlib.metadata
 import json
 import logging
 import re
@@ -6,7 +7,10 @@ from typing import Any, Dict, List, Optional, Union
 
 import httpx2
 
-from .version import version as nectarengine_version
+try:
+    nectarengine_version = importlib.metadata.version("nectarengine")
+except importlib.metadata.PackageNotFoundError:
+    nectarengine_version = "1.0.2"
 
 log = logging.getLogger(__name__)
 
@@ -29,22 +33,15 @@ class UnauthorizedError(Exception):
     pass
 
 
-class SessionInstance(object):
-    """Singleton for the Session Instance"""
-
-    instance: Optional[httpx2.Client] = None
-
-
-def set_session_instance(instance: httpx2.Client) -> None:
-    """Set session instance"""
-    SessionInstance.instance = instance
+_shared_session_instance: Optional[httpx2.Client] = None
 
 
 def shared_session_instance() -> httpx2.Client:
     """Get session instance"""
-    if not SessionInstance.instance:
-        SessionInstance.instance = httpx2.Client()
-    return SessionInstance.instance
+    global _shared_session_instance
+    if not _shared_session_instance:
+        _shared_session_instance = httpx2.Client()
+    return _shared_session_instance
 
 
 def get_endpoint_name(*args: Any, **kwargs: Any) -> str:
@@ -119,10 +116,6 @@ class RPC(object):
         if response.status_code == 401:
             raise UnauthorizedError
         return response.text
-
-    def version_string_to_int(self, network_version: str) -> int:
-        version_list = network_version.split(".")
-        return int(int(version_list[0]) * 1e8 + int(version_list[1]) * 1e4 + int(version_list[2]))
 
     def _check_for_server_error(self, reply: str) -> None:
         """Checks for server error message in reply"""

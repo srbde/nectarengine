@@ -7,7 +7,7 @@ from nectarengine.nft import Nft
 from nectarengine.nfts import Nfts
 
 
-class NftMarket(list):
+class NftMarket:
     """Access the hive-engine NFT market
 
     :param Hive blockchain_instance: Hive
