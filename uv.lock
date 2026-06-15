@@ -708,7 +708,6 @@ dev = [
     { name = "sphinx", version = "9.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "sphinx-click" },
     { name = "sphinx-rtd-theme" },
-    { name = "tomli" },
 ]
 
 [package.metadata]
@@ -727,7 +726,6 @@ dev = [
     { name = "sphinx" },
     { name = "sphinx-click" },
     { name = "sphinx-rtd-theme" },
-    { name = "tomli" },
 ]
 
 [[package]]

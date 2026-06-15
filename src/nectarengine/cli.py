@@ -16,6 +16,7 @@ from nectar.instance import set_shared_blockchain_instance, shared_blockchain_in
 from nectar.nodelist import NodeList
 from prettytable import PrettyTable
 
+from nectarengine import __version__
 from nectarengine.api import Api
 from nectarengine.collection import Collection
 from nectarengine.market import Market
@@ -24,7 +25,6 @@ from nectarengine.nftmarket import NftMarket
 from nectarengine.nfts import Nfts
 from nectarengine.tokenobject import Token
 from nectarengine.tokens import Tokens
-from nectarengine.version import version as __version__
 from nectarengine.wallet import Wallet
 
 click.disable_unicode_literals_warning = True

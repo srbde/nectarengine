@@ -46,7 +46,6 @@ dev = [
   "sphinx",
   "sphinx-click",
   "sphinx-rtd-theme",
-  "tomli",
 ]
 
 [tool.uv]

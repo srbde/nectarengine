@@ -12,8 +12,8 @@ if __name__ == "__main__":
     hv = Hive(node=nodelist.get_hive_nodes())
 
     # edit here
-    upvote_account = "nectarbot"
-    upvote_token = "DRAGON"
+    upvote_account = "thecrazygm.bank"
+    upvote_token = "INCOME"
     token_weight_factor = 100  # multiply token amount to get weight
     min_token_amount = 0.01
     max_post_age_days = 3
@@ -21,7 +21,7 @@ if __name__ == "__main__":
     blacklist_tags = []  # When empty, the tag blacklist is disabled
     reply_comment = ""  # When empty, no reply comment is created
     only_main_posts = True
-    hv.wallet.unlock("wallet-passwd")
+    hv.wallet.unlock("password")
 
     wallet = Wallet(upvote_account, blockchain_instance=hv)
 
@@ -30,22 +30,31 @@ if __name__ == "__main__":
     )
     while True:
         history = wallet.get_history(upvote_token)
-        for h in history:
-            if int(h["block"]) <= last_hive_block:
+        new_last_hive_block = last_hive_block
+        for h in reversed(history):
+            if int(h["blockNumber"]) <= last_hive_block:
+                continue
+            if h.get("operation") != "tokens_transfer":
                 continue
             if h["to"] != upvote_account:
                 continue
-            last_hive_block = int(h["block"])
+            new_last_hive_block = int(h["blockNumber"])
             if len(whitelist) > 0 and h["from"] not in whitelist:
                 print("%s is not in the whitelist, skipping" % h["from"])
                 continue
             if float(h["quantity"]) < min_token_amount:
                 print("Below min token amount skipping...")
                 continue
+
+            memo = h.get("memo")
+            if not memo:
+                print("No memo, skipping")
+                continue
+
             try:
-                c = Comment(h["memo"], blockchain_instance=hv)
+                c = Comment(memo, blockchain_instance=hv)
             except Exception:
-                print("%s is not a valid url, skipping" % h["memo"])
+                print("%s is not a valid url, skipping" % memo)
                 continue
 
             if c.is_comment() and only_main_posts:
@@ -79,4 +88,5 @@ if __name__ == "__main__":
                 time.sleep(4)
                 print(c.reply(reply_comment, author=upvote_account))
 
+        last_hive_block = new_last_hive_block
         time.sleep(60)
